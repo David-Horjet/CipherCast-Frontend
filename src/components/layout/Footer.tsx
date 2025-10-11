@@ -34,7 +34,7 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-border/50 bg-card/30 backdrop-blur-sm">
+    <footer className="relative border-t border-border/50 backdrop-blur-sm">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col items-center justify-center space-y-8">
           {/* Logo */}
@@ -63,7 +63,7 @@ export function Footer() {
                 href={social.href}
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted hover:bg-primary/10 border border-border hover:border-primary/50 transition-all duration-300 text-muted-foreground hover:text-primary"
+                className="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-primary/10 border border-border hover:border-primary/50 transition-all duration-300 text-muted-foreground hover:text-primary"
                 aria-label={social.name}
               >
                 {social.icon}

@@ -46,7 +46,7 @@ export default function PoolsPage() {
 
   return (
     <PageLayout>
-      <div className="min-h-screen py-12">
+      <div className="min-h-screen py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <PoolsHeader />
           <PoolsFilters currentFilter={filter} onFilterChange={setFilter} />

@@ -78,7 +78,7 @@ export function LeaderboardTable({ entries }: LeaderboardTableProps) {
             className={`relative group ${index === 0 ? "md:order-2" : index === 1 ? "md:order-1" : "md:order-3"}`}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-smooth" />
-            <div className="relative p-6 rounded-2xl bg-card border-2 border-primary/50 hover:border-primary transition-smooth">
+            <div className="relative p-6 rounded-2xl border-2 border-primary/50 hover:border-primary transition-smooth">
               <div className="flex flex-col items-center text-center">
                 {getRankBadge(entry.rank)}
                 <div className="mt-4 mb-2">
@@ -109,7 +109,7 @@ export function LeaderboardTable({ entries }: LeaderboardTableProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="p-6 rounded-2xl bg-card border border-border"
+        className="p-6 rounded-2xl border border-border"
       >
         <div className="mb-6">
           <h2 className="text-xl font-bold text-foreground mb-2">All Rankings</h2>
