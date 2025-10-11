@@ -66,13 +66,13 @@ export function HowItWorksSection() {
                 </div>
               )}
 
-              <div className="relative z-10 p-8 rounded-2xl bg-card/80 dark:bg-card/50 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-primary/20 h-full">
+              <div className="relative z-10 p-8 rounded-2xl bg-card/80 dark:bg-card/10 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-primary/20 h-full">
                 <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-accent border border-primary/30 text-white font-mono font-bold text-xl mb-6 shadow-lg shadow-primary/20">
                   {step.number}
                 </div>
 
                 {/* Icon */}
-                <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">{step.icon}</div>
+                {/* <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">{step.icon}</div> */}
 
                 {/* Content */}
                 <h3 className="text-xl font-bold text-foreground mb-3">{step.title}</h3>

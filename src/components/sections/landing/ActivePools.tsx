@@ -49,8 +49,8 @@ export function ActivePoolsSection() {
               transition={{ delay: index * 0.15 }}
               className="group relative"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
-              <div className="relative p-8 rounded-3xl bg-card/80 dark:bg-card/50 backdrop-blur-sm border-2 border-border hover:border-primary/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-primary/20">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
+              <div className="relative p-8 rounded-3xl bg-card/80 dark:bg-card/10 backdrop-blur-sm border-2 border-border hover:border-primary/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-primary/20">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-4">
@@ -103,7 +103,7 @@ export function ActivePoolsSection() {
         >
           <Link
             href="/pools"
-            className="group inline-flex items-center gap-3 px-10 py-4 text-base font-bold text-foreground bg-card hover:bg-muted rounded-2xl transition-all duration-300 border-2 border-border hover:border-primary/50 shadow-lg hover:shadow-xl"
+            className="group inline-flex items-center gap-3 px-10 py-4 text-base font-bold text-foreground rounded-2xl transition-all duration-300 border-2 border-border hover:border-primary/50 shadow-lg hover:shadow-xl"
           >
             View All Pools
             <svg

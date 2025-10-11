@@ -26,7 +26,7 @@ export function HeroSection() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="space-y-10"
         >
-          {/* <motion.div
+          <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
@@ -36,8 +36,8 @@ export function HeroSection() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary" />
             </span>
-            Predict. Stake. Earn.
-          </motion.div> */}
+            Predict Markets, Powered By Arcium
+          </motion.div>
 
           <div className="space-y-6">
             <h1 className="font-sans text-5xl sm:text-6xl lg:text-8xl font-extrabold tracking-tight text-balance leading-tight">
@@ -137,9 +137,9 @@ export function HeroSection() {
                 transition={{ delay: 0.7 + index * 0.1 }}
                 className="relative group"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative p-6 rounded-2xl bg-card/50 dark:bg-card/30 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300 shadow-lg">
-                  <div className="text-3xl mb-2">{stat.icon}</div>
+                <div className="absolute inset-0 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative p-6 rounded-2xl border border-border hover:border-primary/50 transition-all duration-300 shadow-lg">
+                  {/* <div className="text-3xl mb-2">{stat.icon}</div> */}
                   <div className="text-3xl sm:text-4xl font-bold text-primary mb-1">{stat.value}</div>
                   <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
                 </div>
