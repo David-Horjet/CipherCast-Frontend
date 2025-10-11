@@ -1,35 +1,39 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { motion } from "framer-motion"
-import { usePrivy } from "@privy-io/react-auth"
-import { useEffect, useState } from "react"
-import { useAppDispatch, useAppSelector } from "@/lib/store/hooks"
-import { connectWallet, disconnectWallet } from "@/lib/store/slices/walletSlice"
-import { useTheme } from "@/lib/contexts/ThemeContext"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
+import { usePrivy } from "@privy-io/react-auth";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
+import {
+  connectWallet,
+  disconnectWallet,
+} from "@/lib/store/slices/walletSlice";
+import { useTheme } from "@/lib/contexts/ThemeContext";
+import Logo from "../ui/Logo";
 
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/pools", label: "Pools" },
   { href: "/predictions", label: "My Predictions" },
   { href: "/leaderboard", label: "Leaderboard" },
-]
+];
 
 export function Navbar() {
-  const pathname = usePathname()
-  const { ready, authenticated, user, login, logout } = usePrivy()
-  const dispatch = useAppDispatch()
-  const { isConnected, address } = useAppSelector((state) => state.wallet)
-  const { theme, toggleTheme } = useTheme()
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
+  const pathname = usePathname();
+  const { ready, authenticated, user, login, logout } = usePrivy();
+  const dispatch = useAppDispatch();
+  const { isConnected, address } = useAppSelector((state) => state.wallet);
+  const { theme, toggleTheme } = useTheme();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 0)
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    const handleScroll = () => setScrolled(window.scrollY > 0);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     if (authenticated && user?.wallet?.address && !isConnected) {
@@ -37,24 +41,24 @@ export function Navbar() {
         connectWallet({
           address: user.wallet.address,
           balance: 10000,
-        }),
-      )
+        })
+      );
     } else if (!authenticated && isConnected) {
-      dispatch(disconnectWallet())
+      dispatch(disconnectWallet());
     }
-  }, [authenticated, user, isConnected, dispatch])
+  }, [authenticated, user, isConnected, dispatch]);
 
   const handleConnect = async () => {
     if (authenticated) {
-      await logout()
+      await logout();
     } else {
-      await login()
+      await login();
     }
-  }
+  };
 
   const formatAddress = (addr: string) => {
-    return `${addr.slice(0, 6)}...${addr.slice(-4)}`
-  }
+    return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+  };
 
   return (
     <header className="fixed z-50 top-0 left-0 right-0 w-full flex justify-center pointer-events-none">
@@ -71,28 +75,20 @@ export function Navbar() {
           }`}
       >
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="relative">
-            <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full group-hover:bg-primary/30 transition-smooth" />
-            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent shadow-lg">
-              <span className="font-mono text-xl font-bold text-white">C</span>
-            </div>
-          </div>
-          <span className="font-sans text-xl font-bold tracking-tight text-foreground">
-            Cypher<span className="text-primary">Cast</span>
-          </span>
-        </Link>
+        <Logo />
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => {
-            const isActive = pathname === link.href
+            const isActive = pathname === link.href;
             return (
               <Link
                 key={link.href}
                 href={link.href}
                 className={`relative px-4 py-2 text-sm font-medium transition-smooth rounded-lg ${
-                  isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                  isActive
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {link.label}
@@ -104,7 +100,7 @@ export function Navbar() {
                   />
                 )}
               </Link>
-            )
+            );
           })}
         </div>
 
@@ -116,7 +112,12 @@ export function Navbar() {
             aria-label="Toggle theme"
           >
             {theme === "dark" ? (
-              <svg className="h-5 w-5 text-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg
+                className="h-5 w-5 text-foreground"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -125,7 +126,12 @@ export function Navbar() {
                 />
               </svg>
             ) : (
-              <svg className="h-5 w-5 text-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg
+                className="h-5 w-5 text-foreground"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -146,7 +152,6 @@ export function Navbar() {
               "Loading..."
             ) : authenticated && address ? (
               <span className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
                 {formatAddress(address)}
               </span>
             ) : (
@@ -159,11 +164,26 @@ export function Navbar() {
             className="md:hidden p-2.5 rounded-xl bg-muted hover:bg-muted/80 border border-border transition-smooth"
             aria-label="Toggle menu"
           >
-            <svg className="h-5 w-5 text-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg
+              className="h-5 w-5 text-foreground"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
               {mobileMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               )}
             </svg>
           </button>
@@ -178,7 +198,7 @@ export function Navbar() {
             className="absolute top-full left-0 right-0 mt-2 md:hidden bg-background/95 backdrop-blur-xl border border-border/50 rounded-2xl shadow-xl p-4 space-y-2"
           >
             {navLinks.map((link) => {
-              const isActive = pathname === link.href
+              const isActive = pathname === link.href;
               return (
                 <Link
                   key={link.href}
@@ -192,11 +212,11 @@ export function Navbar() {
                 >
                   {link.label}
                 </Link>
-              )
+              );
             })}
           </motion.div>
         )}
       </motion.nav>
     </header>
-  )
+  );
 }
