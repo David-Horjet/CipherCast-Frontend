@@ -22,7 +22,7 @@ export default function PredictionsPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center max-w-md mx-auto px-4"
           >
-            <div className="text-6xl mb-4"><Lock/></div>
+            <div className="text-6xl flex justify-center mb-4"><Lock/></div>
             <h2 className="text-2xl font-bold text-foreground mb-2">Connect Your Wallet</h2>
             <p className="text-muted-foreground">Please connect your wallet to view your predictions</p>
           </motion.div>

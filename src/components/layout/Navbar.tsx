@@ -66,7 +66,7 @@ export function Navbar() {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className={`flex items-center justify-between bg-background/95 backdrop-blur-xl px-4 sm:px-6 lg:px-8 py-4 shadow-lg pointer-events-auto border border-border/50
+        className={`flex items-center justify-between bg-background/10 backdrop-blur-xl px-4 sm:px-6 lg:px-8 py-4 shadow-lg pointer-events-auto border border-border/50
           transition-all duration-500 ease-in-out
           ${
             scrolled
