@@ -38,14 +38,14 @@ export default function RecentActivity() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.8 }}
-      className="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800"
+      className="rounded-2xl p-6 border border-gray-100 dark:border-gray-900"
     >
       <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Recent Activity</h2>
 
       {recentPredictions.length > 0 ? (
         <div className="space-y-4">
           {recentPredictions.map((prediction) => (
-            <div key={prediction.id} className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50">
+            <div key={prediction.id} className="flex items-center gap-4 p-4 rounded-xl border border-gray-100 dark:border-gray-900">
               <div className="text-2xl">{getActivityIcon(prediction.status)}</div>
               <div className="flex-1">
                 <p className="font-semibold text-gray-900 dark:text-white">

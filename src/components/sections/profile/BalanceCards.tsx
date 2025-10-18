@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { useAppSelector } from "@/lib/store/hooks"
+import { Briefcase, ChartBarIncreasing, DollarSign, Gift, Lock } from "lucide-react"
 
 export default function BalanceCards() {
   const balance = useAppSelector((state) => state.wallet.balance)
@@ -25,35 +26,35 @@ export default function BalanceCards() {
     {
       title: "Portfolio Value",
       value: portfolioValue,
-      icon: "💼",
+      icon: <Briefcase/>,
       color: "from-violet-500 to-purple-600",
       textColor: "text-violet-600 dark:text-violet-400",
     },
     {
       title: "Cash Balance",
       value: balance,
-      icon: "💵",
+      icon: <DollarSign/>,
       color: "from-blue-500 to-cyan-600",
       textColor: "text-blue-600 dark:text-blue-400",
     },
     {
       title: "Staked",
       value: stakedBalance,
-      icon: "🔒",
+      icon: <Lock/>,
       color: "from-orange-500 to-red-600",
       textColor: "text-orange-600 dark:text-orange-400",
     },
     {
       title: "Claimable",
       value: claimableBalance,
-      icon: "🎁",
+      icon: <Gift/>,
       color: "from-green-500 to-emerald-600",
       textColor: "text-green-600 dark:text-green-400",
     },
     {
       title: "Total PnL",
       value: totalPnL,
-      icon: totalPnL >= 0 ? "📈" : "📉",
+      icon: totalPnL >= 0 ? <ChartBarIncreasing/> : <ChartBarIncreasing/>,
       color: totalPnL >= 0 ? "from-green-500 to-emerald-600" : "from-red-500 to-rose-600",
       textColor: totalPnL >= 0 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400",
       showSign: true,
@@ -68,7 +69,7 @@ export default function BalanceCards() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
-          className="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800 hover:shadow-lg hover:shadow-violet-500/10 dark:hover:shadow-violet-500/20 transition-all duration-300"
+          className="rounded-2xl p-6 border border-gray-100 dark:border-gray-900 hover:shadow-lg hover:shadow-violet-500/10 dark:hover:shadow-violet-500/20 transition-all duration-300"
         >
           <div className="flex items-center justify-between mb-4">
             <div

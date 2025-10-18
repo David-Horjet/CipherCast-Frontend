@@ -15,7 +15,7 @@ export default function ActivePositions() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.7 }}
-      className="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800"
+      className="rounded-2xl p-6 border border-gray-100 dark:border-gray-900"
     >
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold text-gray-900 dark:text-white">Active Positions</h2>
@@ -34,7 +34,7 @@ export default function ActivePositions() {
             return (
               <div
                 key={prediction.id}
-                className="flex items-center justify-between p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                className="flex items-center justify-between p-4 rounded-xl border border-gray-100 dark:border-gray-900 hover:border-gray-100 dark:hover:border-gray-800 transition-colors"
               >
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-lg">

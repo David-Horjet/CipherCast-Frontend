@@ -66,7 +66,7 @@ export default function PerformanceMetrics() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.6 }}
-      className="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800 h-full"
+      className="rounded-2xl p-6 border border-gray-100 dark:border-gray-900 h-full"
     >
       <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Performance Metrics</h2>
 

@@ -38,7 +38,7 @@ export default function PnLChart() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5 }}
-      className="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800"
+      className="rounded-2xl p-6 border border-gray-100 dark:border-gray-900"
     >
       <div className="flex items-center justify-between mb-6">
         <div>
