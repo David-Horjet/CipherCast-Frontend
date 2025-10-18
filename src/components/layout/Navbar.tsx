@@ -18,6 +18,7 @@ const navLinks = [
   { href: "/pools", label: "Pools" },
   { href: "/predictions", label: "My Predictions" },
   { href: "/leaderboard", label: "Leaderboard" },
+  { href: "/profile", label: "Profile" }, 
 ];
 
 export function Navbar() {
