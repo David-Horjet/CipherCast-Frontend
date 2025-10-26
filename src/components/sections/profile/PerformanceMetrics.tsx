@@ -32,27 +32,27 @@ export default function PerformanceMetrics() {
     {
       label: "Win Rate",
       value: `${winRate.toFixed(1)}%`,
-      color: "text-green-600 dark:text-green-400",
+      color: "text-gray-600 dark:text-gray-400",
     },
     {
       label: "Avg Accuracy",
       value: `${avgAccuracy.toFixed(1)}%`,
-      color: "text-blue-600 dark:text-blue-400",
+      color: "text-gray-600 dark:text-gray-400",
     },
     {
       label: "Best Accuracy",
       value: `${bestAccuracy.toFixed(1)}%`,
-      color: "text-violet-600 dark:text-violet-400",
+      color: "text-gray-600 dark:text-gray-400",
     },
     {
       label: "ROI",
       value: `${roi >= 0 ? "+" : ""}${roi.toFixed(1)}%`,
-      color: roi >= 0 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400",
+      color: "text-gray-600 dark:text-gray-400",
     },
     {
       label: "Active Positions",
       value: activePredictions.length.toString(),
-      color: "text-orange-600 dark:text-orange-400",
+      color: "text-gray-600 dark:text-gray-400",
     },
     {
       label: "Completed",

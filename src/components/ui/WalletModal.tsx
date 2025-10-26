@@ -57,7 +57,7 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
           >
             <div className="bg-background border border-border rounded-2xl shadow-2xl overflow-hidden">
               {/* Header */}
-              <div className="bg-gradient-to-r from-primary/10 to-accent/10 border-b border-border px-6 py-4 flex items-center justify-between">
+              <div className="border-b border-border px-6 py-4 flex items-center justify-between">
                 <h2 className="text-xl font-bold text-foreground">Wallet</h2>
                 <button
                   onClick={onClose}
@@ -74,7 +74,7 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
                 {/* Wallet Address */}
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-muted-foreground">Wallet Address</label>
-                  <div className="flex items-center gap-2 p-3 bg-muted rounded-xl border border-border">
+                  <div className="flex items-center gap-2 p-3 rounded-xl border border-border">
                     <span className="flex-1 text-sm font-mono text-foreground truncate">
                       {formatAddress(walletAddress)}
                     </span>
@@ -126,7 +126,7 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
                   {/* Export Wallet Button */}
                   <button
                     onClick={handleExportWallet}
-                    className="w-full px-4 py-3 bg-muted hover:bg-muted/80 text-foreground font-semibold rounded-xl border border-border hover:border-primary/50 transition-smooth flex items-center justify-center gap-2"
+                    className="w-full px-4 py-3 text-foreground font-semibold rounded-xl border border-border hover:border-primary/50 transition-smooth flex items-center justify-center gap-2"
                   >
                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path
@@ -160,7 +160,7 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
                 </div>
 
                 {/* Network Info */}
-                <div className="pt-4 border-t border-border">
+                {/* <div className="pt-4 border-t border-border">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">Network</span>
                     <div className="flex items-center gap-2">
@@ -168,7 +168,7 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
                       <span className="font-medium text-foreground">Solana</span>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </motion.div>

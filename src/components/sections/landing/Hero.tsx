@@ -26,7 +26,7 @@ export function HeroSection() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="space-y-10"
         >
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
@@ -37,7 +37,7 @@ export function HeroSection() {
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary" />
             </span>
             Predict Markets, Powered By Arcium
-          </motion.div>
+          </motion.div> */}
 
           <div className="space-y-6">
             <h1 className="font-sans text-5xl sm:text-6xl lg:text-8xl font-extrabold tracking-tight text-balance leading-tight">

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import type { Prediction } from "@/lib/store/slices/predictionsSlice"
 import Link from "next/link"
+import { BarChart } from "lucide-react"
 
 interface PredictionsTableProps {
   predictions: Prediction[]
@@ -46,7 +47,7 @@ export function PredictionsTable({ predictions }: PredictionsTableProps) {
         transition={{ delay: 0.2 }}
         className="text-center py-20"
       >
-        <div className="text-6xl mb-4">📊</div>
+        <div className="w-full flex justify-center text-6xl mb-4"><BarChart /></div>
         <h3 className="text-xl font-semibold text-foreground mb-2">No predictions yet</h3>
         <p className="text-muted-foreground mb-6">Start making predictions to see them here</p>
         <Link

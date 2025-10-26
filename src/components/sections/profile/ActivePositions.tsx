@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { useAppSelector } from "@/lib/store/hooks"
 import Link from "next/link"
+import { ChartArea } from "lucide-react"
 
 export default function ActivePositions() {
   const predictions = useAppSelector((state) => state.predictions.predictions)
@@ -57,7 +58,7 @@ export default function ActivePositions() {
         </div>
       ) : (
         <div className="text-center py-12">
-          <div className="text-6xl mb-4">📊</div>
+          <div className="text-6xl mb-4 w-full justify-center flex"><ChartArea/></div>
           <p className="text-gray-600 dark:text-gray-400 mb-4">No active positions</p>
           <Link
             href="/pools"

@@ -28,34 +28,34 @@ export default function BalanceCards() {
       value: portfolioValue,
       icon: <Briefcase/>,
       color: "from-violet-500 to-purple-600",
-      textColor: "text-violet-600 dark:text-violet-400",
+      textColor: "text-gray-800 dark:text-gray-200",
     },
     {
       title: "Cash Balance",
       value: balance,
       icon: <DollarSign/>,
-      color: "from-blue-500 to-cyan-600",
-      textColor: "text-blue-600 dark:text-blue-400",
+      color: "from-violet-500 to-purple-600",
+      textColor: "text-gray-800 dark:text-gray-200",
     },
     {
       title: "Staked",
       value: stakedBalance,
       icon: <Lock/>,
-      color: "from-orange-500 to-red-600",
-      textColor: "text-orange-600 dark:text-orange-400",
+      color: "from-violet-500 to-purple-600",
+      textColor: "text-gray-800 dark:text-gray-200",
     },
     {
       title: "Claimable",
       value: claimableBalance,
       icon: <Gift/>,
-      color: "from-green-500 to-emerald-600",
-      textColor: "text-green-600 dark:text-green-400",
+      color: "from-violet-500 to-purple-600",
+      textColor: "text-gray-800 dark:text-gray-200",
     },
     {
       title: "Total PnL",
       value: totalPnL,
       icon: totalPnL >= 0 ? <ChartBarIncreasing/> : <ChartBarIncreasing/>,
-      color: totalPnL >= 0 ? "from-green-500 to-emerald-600" : "from-red-500 to-rose-600",
+      color: "from-violet-500 to-purple-600",
       textColor: totalPnL >= 0 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400",
       showSign: true,
     },
@@ -73,7 +73,7 @@ export default function BalanceCards() {
         >
           <div className="flex items-center justify-between mb-4">
             <div
-              className={`w-12 h-12 rounded-xl bg-gradient-to-br ${card.color} flex items-center justify-center text-2xl`}
+              className={`w-12 h-12 rounded-xl bg-gradient-to-br ${card.color} text-gray-200 flex items-center justify-center text-2xl`}
             >
               {card.icon}
             </div>

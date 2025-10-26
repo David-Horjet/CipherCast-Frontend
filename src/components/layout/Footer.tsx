@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Logo from "../common/Logo"
 
 const socialLinks = [
   {
@@ -38,17 +39,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col items-center justify-center space-y-8">
           {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full" />
-              <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent shadow-lg">
-                <span className="font-mono text-xl font-bold text-white">C</span>
-              </div>
-            </div>
-            <span className="font-sans text-xl font-bold tracking-tight text-foreground">
-              Cypher<span className="text-primary">Cast</span>
-            </span>
-          </div>
+          <Logo />
 
           {/* Powered by Arcium */}
           <p className="text-sm text-muted-foreground">

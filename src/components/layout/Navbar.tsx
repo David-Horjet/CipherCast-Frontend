@@ -11,8 +11,8 @@ import {
   disconnectWallet,
 } from "@/lib/store/slices/walletSlice";
 import { useTheme } from "@/lib/contexts/ThemeContext";
-import Logo from "../ui/Logo";
 import { WalletModal } from "../ui/WalletModal";
+import Logo from "../common/Logo";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -116,7 +116,7 @@ export function Navbar() {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2.5 rounded-xl bg-muted hover:bg-muted/80 border border-border hover:border-primary/50 transition-smooth"
+              className="p-2.5 transition-smooth"
               aria-label="Toggle theme"
             >
               {theme === "dark" ? (

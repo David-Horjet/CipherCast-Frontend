@@ -11,8 +11,8 @@ const inter = Bricolage_Grotesque({
 })
 
 export const metadata: Metadata = {
-  title: "CypherCast - Predict Crypto Prices & Earn Rewards",
-  description: "Stake USDC, predict future crypto prices, and compete on the global leaderboard",
+  title: "Swiv - Prediction Markets for Privacy Nomies",
+  description: "Stake USDC, predict crypto, stock prices, and compete on the global leaderboard",
 }
 
 export default function RootLayout({
