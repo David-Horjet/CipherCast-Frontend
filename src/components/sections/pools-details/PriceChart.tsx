@@ -18,7 +18,7 @@ export function PriceChart({ pool, historicalData }: PriceChartProps) {
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-card border border-border rounded-lg p-3 shadow-xl">
+        <div className="border border-border rounded-lg p-3 shadow-xl">
           <p className="text-sm text-muted-foreground mb-1">{payload[0].payload.date}</p>
           <p className="text-lg font-bold text-primary">${payload[0].value.toLocaleString()}</p>
         </div>
@@ -32,7 +32,7 @@ export function PriceChart({ pool, historicalData }: PriceChartProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 }}
-      className="p-6 rounded-2xl bg-card border border-border"
+      className="p-6 rounded-2xl border border-border"
     >
       <div className="mb-6">
         <h2 className="text-xl font-bold text-foreground mb-2">Price History</h2>

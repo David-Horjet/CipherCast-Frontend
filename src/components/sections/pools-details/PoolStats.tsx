@@ -71,10 +71,10 @@ export function PoolStats({ pool }: PoolStatsProps) {
       {stats.map((stat, index) => (
         <div
           key={index}
-          className="p-4 rounded-xl bg-card border border-border hover:border-primary/50 transition-smooth"
+          className="p-4 rounded-xl border border-border hover:border-primary/50 transition-smooth"
         >
           <div className="flex items-center gap-3 mb-2">
-            <span className="text-2xl">{stat.icon}</span>
+            {/* <span className="text-2xl">{stat.icon}</span> */}
             <span className="text-sm text-muted-foreground">{stat.label}</span>
           </div>
           <div className="text-2xl font-bold text-foreground font-mono">{stat.value}</div>

@@ -20,7 +20,7 @@ export function ParticipantsTable({ poolId }: ParticipantsTableProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3 }}
-      className="p-6 rounded-2xl bg-card border border-border"
+      className="p-6 rounded-2xl border border-border"
     >
       <div className="mb-6">
         <h2 className="text-xl font-bold text-foreground mb-2">Recent Predictions</h2>
