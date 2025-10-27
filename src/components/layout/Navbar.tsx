@@ -13,6 +13,8 @@ import {
 import { useTheme } from "@/lib/contexts/ThemeContext";
 import { WalletModal } from "../ui/WalletModal";
 import Logo from "../common/Logo";
+import { useToast } from "@/lib/hooks/useToast";
+import { authApi } from "@/lib/api/auth";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -23,45 +25,115 @@ const navLinks = [
 ];
 
 export function Navbar() {
-  const pathname = usePathname();
-  const { ready, authenticated, user, login, logout } = usePrivy();
-  const dispatch = useAppDispatch();
-  const { isConnected, address } = useAppSelector((state) => state.wallet);
-  const { theme, toggleTheme } = useTheme();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [walletModalOpen, setWalletModalOpen] = useState(false);
+  const pathname = usePathname()
+  const { ready, authenticated, user, login, logout } = usePrivy()
+  const dispatch = useAppDispatch()
+  const { isConnected, address } = useAppSelector((state) => state.wallet)
+  const { theme, toggleTheme } = useTheme()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [walletModalOpen, setWalletModalOpen] = useState(false)
+  const [isAuthenticating, setIsAuthenticating] = useState(false)
+  const toast = useToast()
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 0);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    const handleScroll = () => setScrolled(window.scrollY > 0)
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   useEffect(() => {
-    if (authenticated && user?.wallet?.address && !isConnected) {
-      dispatch(
-        connectWallet({
-          address: user.wallet.address,
-          balance: 10000,
-        })
-      );
-    } else if (!authenticated && isConnected) {
-      dispatch(disconnectWallet());
+    const authenticateUser = async () => {
+      if (authenticated && user?.wallet?.address && !isConnected && !isAuthenticating) {
+        setIsAuthenticating(true)
+
+        try {
+          console.log("[v0] Starting authentication process")
+          const walletAddress = user.wallet.address
+          const privyUserId = user.id
+
+          // Try to login first
+          try {
+            console.log("[v0] Attempting login")
+            const loginResponse = await authApi.login({
+              walletAddress,
+              privyUserId,
+            })
+
+            console.log("[v0] Login successful", loginResponse.data)
+
+            // Update Redux state with user data
+            dispatch(
+              connectWallet({
+                address: walletAddress,
+                balance: 10000, // This should come from backend in future
+                userId: loginResponse.data.id,
+                username: loginResponse.data.username,
+                email: loginResponse.data.email,
+                avatarUrl: loginResponse.data.avatarUrl,
+                isEmailVerified: loginResponse.data.isEmailVerified,
+                privyUserId: loginResponse.data.id,
+              }),
+            )
+
+            toast.success("Welcome back!")
+          } catch (loginError) {
+            // If login fails, try to register
+            console.log("[v0] Login failed, attempting registration")
+
+            const registerResponse = await authApi.register({
+              walletAddress,
+              privyUserId,
+              authMethod: user.email ? "email" : "wallet",
+              authIdentifier: user.email?.address || walletAddress,
+              username: user.email?.address?.split("@")[0] || `user_${walletAddress.slice(0, 6)}`,
+              email: user.email?.address,
+              isEmailVerified: true,
+            })
+
+            console.log("[v0] Registration successful", registerResponse.data)
+
+            // Update Redux state with new user data
+            dispatch(
+              connectWallet({
+                address: walletAddress,
+                balance: 10000, // Default balance for new users
+                userId: registerResponse.data.id,
+                username: registerResponse.data.username,
+                email: registerResponse.data.email,
+                avatarUrl: registerResponse.data.avatarUrl,
+                isEmailVerified: registerResponse.data.isEmailVerified,
+                privyUserId: registerResponse.data.id,
+              }),
+            )
+
+            toast.success("Welcome to CypherCast!")
+          }
+        } catch (error) {
+          console.error("[v0] Authentication error:", error)
+          toast.error("Authentication failed. Please try again.")
+        } finally {
+          setIsAuthenticating(false)
+        }
+      } else if (!authenticated && isConnected) {
+        dispatch(disconnectWallet())
+      }
     }
-  }, [authenticated, user, isConnected, dispatch]);
+
+    authenticateUser()
+  }, [authenticated, user, isConnected, dispatch, isAuthenticating, toast])
 
   const handleConnect = async () => {
     if (authenticated) {
-      setWalletModalOpen(true);
+      setWalletModalOpen(true)
     } else {
-      await login();
+      await login()
     }
-  };
+  }
 
   const formatAddress = (addr: string) => {
-    return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
-  };
+    return `${addr.slice(0, 6)}...${addr.slice(-4)}`
+  }
 
   return (
     <>

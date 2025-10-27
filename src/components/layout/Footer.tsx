@@ -64,7 +64,7 @@ export function Footer() {
 
           {/* Copyright */}
           <p className="text-sm text-muted-foreground text-center">
-            © {new Date().getFullYear()} CypherCast. All rights reserved.
+            © {new Date().getFullYear()} Swiv. All rights reserved.
           </p>
         </div>
       </div>

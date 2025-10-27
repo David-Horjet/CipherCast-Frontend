@@ -10,16 +10,28 @@ export interface Pool {
   status: "ongoing" | "upcoming" | "closed"
   currentPrice?: number
   icon: string
+  // Blockchain-specific fields
+  targetPrice?: number
+  finalPrice?: number | null
+  entryFee?: number
+  maxParticipants?: number
+  poolPubkey?: string
+  vaultPubkey?: string
+  poolId?: number
+  blockchainSignature?: string
+  creator?: string
 }
 
 interface PoolsState {
   pools: Pool[]
   loading: boolean
+  error: string | null
 }
 
 const initialState: PoolsState = {
   pools: [],
   loading: false,
+  error: null,
 }
 
 const poolsSlice = createSlice({
@@ -28,6 +40,7 @@ const poolsSlice = createSlice({
   reducers: {
     setPools: (state, action: PayloadAction<Pool[]>) => {
       state.pools = action.payload
+      state.error = null
     },
     updatePoolPrice: (state, action: PayloadAction<{ id: string; price: number }>) => {
       const pool = state.pools.find((p) => p.id === action.payload.id)
@@ -38,8 +51,12 @@ const poolsSlice = createSlice({
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload
     },
+    setError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload
+      state.loading = false
+    },
   },
 })
 
-export const { setPools, updatePoolPrice, setLoading } = poolsSlice.actions
+export const { setPools, updatePoolPrice, setLoading, setError } = poolsSlice.actions
 export default poolsSlice.reducer

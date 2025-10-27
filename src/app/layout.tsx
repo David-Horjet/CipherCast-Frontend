@@ -11,8 +11,8 @@ const inter = Bricolage_Grotesque({
 })
 
 export const metadata: Metadata = {
-  title: "Swiv - Prediction Markets for Privacy Nomies",
-  description: "Stake USDC, predict crypto, stock prices, and compete on the global leaderboard",
+  title: "Swiv - Prediction markets, but for privacy normies.",
+  description: "Your predictions deserve privacy, Trade crypto and stock prices",
 }
 
 export default function RootLayout({

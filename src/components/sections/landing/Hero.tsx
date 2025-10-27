@@ -40,15 +40,15 @@ export function HeroSection() {
           </motion.div> */}
 
           <div className="space-y-6">
-            <h1 className="font-sans text-5xl sm:text-6xl lg:text-8xl font-extrabold tracking-tight text-balance leading-tight">
-              <span className="text-foreground">Predict Crypto Prices</span>
+            <h1 className="font-sans text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-balance leading-tight">
+              <span className="text-foreground">Predict Crypto & Stock Prices</span>
               <br />
               <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient inline-block">
                 Win Big Rewards
               </span>
             </h1>
             <p className="mx-auto max-w-3xl text-lg sm:text-xl lg:text-2xl text-muted-foreground leading-relaxed text-pretty font-light">
-              Join the most advanced crypto prediction platform. Stake USDC, predict future prices, and compete with
+              Join the most advanced crypto and stock prediction platform. Stake USDC, predict future prices, and compete with
               traders worldwide for massive rewards.
             </p>
           </div>
