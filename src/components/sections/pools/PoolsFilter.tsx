@@ -10,7 +10,7 @@ interface PoolsFiltersProps {
 const filters = [
   { value: "all" as const, label: "All Pools", icon: "🎯" },
   { value: "ongoing" as const, label: "Live", icon: "🔴" },
-  { value: "upcoming" as const, label: "Upcoming", icon: "⏰" },
+  // { value: "upcoming" as const, label: "Upcoming", icon: "⏰" },
   { value: "closed" as const, label: "Closed", icon: "✅" },
 ]
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { mockPools } from "@/lib/data/mockData"
+import { getAllPools } from "@/lib/api/pools"
 import { Pool } from "@/lib/store/slices/poolsSlice"
 import { motion } from "framer-motion"
 import Link from "next/link"
@@ -8,9 +8,23 @@ import { useEffect, useState } from "react"
 
 export function ActivePoolsSection() {
   const [activePools, setActivePools] = useState<Pool[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    setActivePools(mockPools.filter((pool) => pool.status === "ongoing").slice(0, 3))
+    const loadActivePools = async () => {
+      try {
+        const pools = await getAllPools("active")
+        setActivePools(pools.slice(0, 3))
+      } catch (error) {
+        console.error("[v0] Error loading active pools:", error)
+        // Fallback to empty array on error
+        setActivePools([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadActivePools()
   }, [])
 
   const formatDeadline = (deadline: string) => {
@@ -22,6 +36,47 @@ export function ActivePoolsSection() {
 
     if (days > 0) return `${days}d ${hours}h left`
     return `${hours}h left`
+  }
+
+  if (loading) {
+    return (
+      <section className="relative py-32">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
+            <p className="mt-4 text-muted-foreground">Loading active pools...</p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  if (activePools.length === 0) {
+    return (
+      <section className="relative py-32">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6 text-balance">
+              Active Pools
+            </h2>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto text-pretty leading-relaxed mb-8">
+              No active pools at the moment. Check back soon!
+            </p>
+            <Link
+              href="/pools"
+              className="inline-flex items-center gap-3 px-10 py-4 text-base font-bold text-white bg-gradient-to-r from-primary to-accent rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-primary/50"
+            >
+              View All Pools
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+    )
   }
 
   return (

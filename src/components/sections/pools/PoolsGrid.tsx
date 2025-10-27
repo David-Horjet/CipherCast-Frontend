@@ -40,7 +40,7 @@ export function PoolsGrid({ pools }: PoolsGridProps) {
   if (pools.length === 0) {
     return (
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center py-32">
-        <div className="text-7xl mb-6">🔍</div>
+        <div className="text-7xl mb-6">?</div>
         <h3 className="text-2xl font-bold text-foreground mb-3">No pools found</h3>
         <p className="text-muted-foreground text-lg">Try adjusting your filters</p>
       </motion.div>
