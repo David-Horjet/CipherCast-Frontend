@@ -116,7 +116,7 @@ export function Navbar() {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2.5 transition-smooth"
+              className="p-2.5 rounded-xl border border-border transition-smooth"
               aria-label="Toggle theme"
             >
               {theme === "dark" ? (
@@ -169,7 +169,7 @@ export function Navbar() {
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2.5 rounded-xl bg-muted hover:bg-muted/80 border border-border transition-smooth"
+              className="md:hidden p-2.5 rounded-xl border border-border transition-smooth"
               aria-label="Toggle menu"
             >
               <svg

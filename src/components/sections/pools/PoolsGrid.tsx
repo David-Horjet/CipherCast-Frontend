@@ -57,8 +57,8 @@ export function PoolsGrid({ pools }: PoolsGridProps) {
           transition={{ delay: index * 0.05, duration: 0.5 }}
           className="group relative"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
-          <div className="relative p-8 rounded-3xl bg-card/80 dark:bg-card/50 backdrop-blur-sm border-2 border-border hover:border-primary/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-primary/20 h-full flex flex-col">
+          {/* <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500" /> */}
+          <div className="relative p-8 rounded-3xl backdrop-blur-sm border border-border hover:border-primary/10 transition-all duration-300 shadow-xl h-full flex flex-col">
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-4">
@@ -85,15 +85,15 @@ export function PoolsGrid({ pools }: PoolsGridProps) {
 
             {/* Stats */}
             <div className="space-y-4 mb-6 flex-grow">
-              <div className="flex items-center justify-between p-3 rounded-xl bg-muted/50 dark:bg-muted/30">
+              <div className="flex items-center justify-between p-3 rounded-xl border border-border">
                 <span className="text-sm text-muted-foreground font-medium">Pool Size</span>
                 <span className="text-sm font-bold text-foreground">${pool.poolSize.toLocaleString()}</span>
               </div>
-              <div className="flex items-center justify-between p-3 rounded-xl bg-muted/50 dark:bg-muted/30">
+              <div className="flex items-center justify-between p-3 rounded-xl border border-border">
                 <span className="text-sm text-muted-foreground font-medium">Participants</span>
                 <span className="text-sm font-bold text-foreground">{pool.participants}</span>
               </div>
-              <div className="flex items-center justify-between p-3 rounded-xl bg-muted/50 dark:bg-muted/30">
+              <div className="flex items-center justify-between p-3 rounded-xl border border-border">
                 <span className="text-sm text-muted-foreground font-medium">
                   {pool.status === "closed" ? "Ended" : "Time Left"}
                 </span>

@@ -79,7 +79,7 @@ export function PredictionModal({ pool, onClose }: PredictionModalProps) {
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className="relative w-full max-w-md p-6 rounded-2xl bg-card border border-border shadow-2xl"
+          className="relative w-full max-w-md p-6 rounded-2xl border border-border shadow-2xl"
         >
           {!showSuccess ? (
             <>

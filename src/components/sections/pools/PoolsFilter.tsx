@@ -32,7 +32,7 @@ export function PoolsFilters({ currentFilter, onFilterChange }: PoolsFiltersProp
               className={`relative px-8 py-3.5 text-sm font-bold rounded-2xl transition-all duration-300 ${
                 isActive
                   ? "text-white bg-gradient-to-r from-primary to-accent shadow-xl shadow-primary/40 scale-105"
-                  : "text-muted-foreground hover:text-foreground border-2 border-border hover:border-primary/30"
+                  : "text-muted-foreground hover:text-foreground border border-border hover:border-primary/30"
               }`}
             >
               <span className="flex items-center gap-2">
