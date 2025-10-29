@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 import type { Pool } from "@/lib/store/slices/poolsSlice"
+import { TrendingUp } from "lucide-react"
 
 interface PriceChartProps {
   pool: Pool
@@ -63,7 +64,7 @@ export function PriceChart({ pool, historicalData }: PriceChartProps) {
       ) : (
         <div className="h-[400px] flex items-center justify-center">
           <div className="text-center">
-            <div className="text-4xl mb-2">📈</div>
+            <div className="text-4xl w-full justify-center text-center flex mb-2"><TrendingUp/></div>
             <p className="text-muted-foreground">Price data not available</p>
           </div>
         </div>

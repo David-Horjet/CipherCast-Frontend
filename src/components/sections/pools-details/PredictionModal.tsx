@@ -1,13 +1,17 @@
 "use client"
 
 import type React from "react"
-
 import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
+import { usePrivy, useSolanaWallets } from "@privy-io/react-auth"
+import { Connection, PublicKey } from "@solana/web3.js"
 import type { Pool } from "@/lib/store/slices/poolsSlice"
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks"
 import { addPrediction } from "@/lib/store/slices/predictionsSlice"
 import { updateBalance } from "@/lib/store/slices/walletSlice"
+import { placeEncryptedBet } from "@/lib/solana/place-bet"
+import { createPrediction } from "@/lib/api/predictions"
+import { useToast } from "@/lib/hooks/useToast"
 
 interface PredictionModalProps {
   pool: Pool
@@ -16,11 +20,18 @@ interface PredictionModalProps {
 
 export function PredictionModal({ pool, onClose }: PredictionModalProps) {
   const dispatch = useAppDispatch()
-  const { balance, address } = useAppSelector((state) => state.wallet)
+  const { balance } = useAppSelector((state) => state.wallet)
+  const { ready, authenticated } = usePrivy()
+  const { wallets } = useSolanaWallets()
+  const toast = useToast()
+
   const [predictedPrice, setPredictedPrice] = useState("")
   const [stakeAmount, setStakeAmount] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
+  const [transactionStatus, setTransactionStatus] = useState<string>("")
+
+  const embeddedWallet = wallets.find((wallet) => wallet.walletClientType === "privy")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -29,37 +40,87 @@ export function PredictionModal({ pool, onClose }: PredictionModalProps) {
     const stake = Number.parseFloat(stakeAmount)
 
     if (isNaN(price) || isNaN(stake) || stake <= 0 || stake > balance) {
+      toast.error("Invalid input. Please check your values.")
+      return
+    }
+
+    if (!ready || !authenticated || !embeddedWallet) {
+      toast.error("Please connect your wallet first")
       return
     }
 
     setIsSubmitting(true)
+    setTransactionStatus("Preparing transaction...")
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    try {
+      const connection = new Connection(
+        process.env.NEXT_PUBLIC_SOLANA_RPC_URL!,
+        "confirmed",
+      )
 
-    // Add prediction to store
-    dispatch(
-      addPrediction({
-        id: Date.now().toString(),
+      const walletPublicKey = new PublicKey(embeddedWallet.address)
+      console.log("[v0] Wallet public key:", walletPublicKey)
+
+      setTransactionStatus("Encrypting prediction...")
+      toast.info("Encrypting your prediction...")
+
+      const poolId = pool.poolId!
+
+      setTransactionStatus("Sending transaction...")
+      toast.info("Transaction sent. Waiting for confirmation...")
+
+      const txSignature = await placeEncryptedBet(
+        connection,
+        embeddedWallet,
+        async (tx) => {
+          const signedTx = await embeddedWallet.signTransaction(tx)
+          return signedTx
+        },
+        {
+          poolId,
+          predictedPrice: price,
+          stakeAmount: stake,
+        },
+      )
+
+      console.log("[v0] Transaction signature:", txSignature)
+      setTransactionStatus("Transaction confirmed! Saving to backend...")
+
+      const backendResponse = await createPrediction({
         poolId: pool.id,
-        asset: pool.asset,
-        predictedPrice: price,
-        stake,
-        timestamp: new Date().toISOString(),
-        status: "active",
-      }),
-    )
+        userWallet: embeddedWallet.address,
+        predictedPrice: price.toString(),
+        amount: stake.toString(),
+      })
 
-    // Update balance
-    dispatch(updateBalance(balance - stake))
+      console.log("[v0] Backend response:", backendResponse)
 
-    setIsSubmitting(false)
-    setShowSuccess(true)
+      dispatch(
+        addPrediction({
+          id: backendResponse.data.id,
+          poolId: pool.id,
+          asset: pool.asset,
+          predictedPrice: price,
+          stake,
+          timestamp: backendResponse.data.created_at,
+          status: backendResponse.data.status,
+        }),
+      )
 
-    // Close modal after success
-    setTimeout(() => {
-      onClose()
-    }, 2000)
+      dispatch(updateBalance(balance - stake))
+
+      setIsSubmitting(false)
+      setShowSuccess(true)
+      toast.success("Prediction placed successfully!")
+
+      setTimeout(() => {
+        onClose()
+      }, 2000)
+    } catch (error: any) {
+      console.error("[v0] Prediction submission error:", error)
+      setIsSubmitting(false)
+      toast.error(error.message || "Failed to place prediction. Please try again.")
+    }
   }
 
   return (
@@ -79,7 +140,7 @@ export function PredictionModal({ pool, onClose }: PredictionModalProps) {
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className="relative w-full max-w-md p-6 rounded-2xl border border-border shadow-2xl"
+          className="relative w-full max-w-md p-6 rounded-2xl bg-card border border-border shadow-2xl"
         >
           {!showSuccess ? (
             <>
@@ -125,7 +186,8 @@ export function PredictionModal({ pool, onClose }: PredictionModalProps) {
                     onChange={(e) => setPredictedPrice(e.target.value)}
                     placeholder="Enter predicted price"
                     required
-                    className="w-full px-4 py-3 rounded-xl bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-smooth"
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-3 rounded-xl bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-smooth disabled:opacity-50"
                   />
                 </div>
 
@@ -143,16 +205,24 @@ export function PredictionModal({ pool, onClose }: PredictionModalProps) {
                     placeholder="Enter stake amount"
                     required
                     max={balance}
-                    className="w-full px-4 py-3 rounded-xl bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-smooth"
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-3 rounded-xl bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-smooth disabled:opacity-50"
                   />
                   <p className="text-xs text-muted-foreground mt-2">Available: ${balance.toLocaleString()} USDC</p>
                 </div>
 
+                {/* Transaction Status */}
+                {isSubmitting && transactionStatus && (
+                  <div className="p-3 rounded-xl bg-primary/10 border border-primary/20">
+                    <p className="text-sm text-primary font-medium">{transactionStatus}</p>
+                  </div>
+                )}
+
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-3 text-base font-semibold text-white bg-gradient-to-r from-primary to-accent rounded-xl transition-smooth hover:shadow-xl hover:shadow-primary/50 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={isSubmitting || !authenticated || !embeddedWallet}
+                  className="w-full py-3 text-base font-semibold text-white bg-gradient-to-r from-primary to-accent rounded-xl transition-smooth hover:shadow-xl hover:shadow-primary/50 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center justify-center gap-2">
@@ -161,10 +231,12 @@ export function PredictionModal({ pool, onClose }: PredictionModalProps) {
                         animate={{ rotate: 360 }}
                         transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
                       />
-                      Submitting...
+                      Processing...
                     </span>
+                  ) : !authenticated || !embeddedWallet ? (
+                    "Connect Wallet First"
                   ) : (
-                    "Submit Prediction"
+                    "Place Prediction"
                   )}
                 </button>
               </form>
@@ -184,7 +256,7 @@ export function PredictionModal({ pool, onClose }: PredictionModalProps) {
                 ✓
               </motion.div>
               <h3 className="text-2xl font-bold text-foreground mb-2">Prediction Submitted!</h3>
-              <p className="text-muted-foreground">Your prediction has been recorded successfully</p>
+              <p className="text-muted-foreground">Your encrypted prediction has been recorded on-chain</p>
             </motion.div>
           )}
         </motion.div>
