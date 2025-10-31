@@ -9,7 +9,7 @@ import { getAssociatedTokenAddress, TOKEN_PROGRAM_ID } from "@solana/spl-token"
 import type { SwivPrivacy } from "@/lib/types/idl"
 import IDL from "@/lib/idl/idl.json"
 import { encryptPrediction } from "./arcium-encryption"
-import { getArciumProgramId, getClockAccAddress, getExecutingPoolAccAddress } from "@arcium-hq/client"
+import { getArciumProgAddress, getArciumProgramId, getClockAccAddress, getClusterAccAddress, getCompDefAccAddress, getCompDefAccOffset, getComputationAccAddress, getExecutingPoolAccAddress, getMempoolAccAddress, getMXEAccAddress } from "@arcium-hq/client"
 import { randomBytes } from "crypto"
 
 const PROGRAM_ID = new PublicKey("729ib6LPCHmj13pZA2F1airFN23pG3diK4bWUTaxw3Fz")
@@ -82,37 +82,28 @@ export async function placeEncryptedBet(
             PROGRAM_ID,
         )
 
-        const [signPdaAccount] = PublicKey.findProgramAddressSync([Buffer.from("SignerAccount")], PROGRAM_ID)
+        const [signPdaAccount] = PublicKey.findProgramAddressSync([Buffer.from("sign_pda")], PROGRAM_ID)
 
         const MXE_PDA_SEED = Buffer.from("mxe_pda");
 
         // ✅ Proper program initialization
         const program = new Program<SwivPrivacy>(IDL as SwivPrivacy, provider)
 
-        const [mxeAccount] = PublicKey.findProgramAddressSync(
-            [MXE_PDA_SEED],
-            PROGRAM_ID
-        );
+        const mxeAccount = getMXEAccAddress(PROGRAM_ID)
+        console.log("mxeAccount PDA:", mxeAccount.toBase58());
 
-        const [mempoolAccount] = PublicKey.findProgramAddressSync(
-            [Buffer.from("mempool")],
-            PROGRAM_ID
-        );
+        const mempoolAccount = getMempoolAccAddress(PROGRAM_ID)
+        console.log("mempoolAccount PDA:", mempoolAccount.toBase58());
 
-        const [executingPool] = PublicKey.findProgramAddressSync(
-            [Buffer.from("executing_pool")],
-            PROGRAM_ID
-        );
+        const executingPool = getExecutingPoolAccAddress(PROGRAM_ID)
+        console.log("executingPool PDA:", executingPool.toBase58());
 
         const computationOffset = new BN(0)
 
-        const [computationAccount] = PublicKey.findProgramAddressSync(
-            [
-                Buffer.from("computation"),
-                computationOffset.toArrayLike(Buffer, "le", 8),
-            ],
-            PROGRAM_ID
-        );
+        const computationAccount = getComputationAccAddress(
+            program.programId,
+            computationOffset
+        )
 
         const COMP_DEF_OFFSET_PROCESS_BET = 0;
 
@@ -123,15 +114,20 @@ export async function placeEncryptedBet(
             ],
             PROGRAM_ID
         );
+        console.log("compDefAccount:", compDefAccount.toBase58());
 
-        const [clusterAccount] = PublicKey.findProgramAddressSync(
-            [Buffer.from("cluster"), mxeAccount.toBuffer()],
-            PROGRAM_ID
-        );
+        const clusterAccount = getClusterAccAddress(1078779259);
+
+        // const [clusterAccount] = PublicKey.findProgramAddressSync(
+        //     [Buffer.from("cluster"), mxeAccount.toBuffer()],
+        //     PROGRAM_ID
+        // );
+
+        // console.log("clusterAccount:", clusterAccount.toBase58());
 
         const poolAccount = getExecutingPoolAccAddress(mxeAccount);
         const clockAccount = getClockAccAddress();
-        const ARCIUM_PROGRAM_ID = getArciumProgramId();
+        const ARCIUM_PROGRAM_ID = getArciumProgAddress();
         // console.log(ARCIUM_PROGRAM_ID.toBase58());
 
         // Convert nonce (Uint8Array length 16) into BN using little-endian order (u128)
@@ -139,7 +135,7 @@ export async function placeEncryptedBet(
         // BN constructor: new BN(buffer, base?, endian?) — use 'le' for little-endian
         const bnNonce = new BN(nonceUint8, undefined, "le") // bn now holds the u128 number
         console.log("mxeAccount:", mxeAccount.toBase58())
-        
+
         const tx = await program.methods
             .placeEncryptedBet(
                 computationOffset,
@@ -147,8 +143,8 @@ export async function placeEncryptedBet(
                 Array.from(encryptedData.publicKey),
                 bnNonce,
             )
-            .accounts({
-                pool: new PublicKey(poolPda),
+            .accountsPartial({
+                pool: poolPda,
                 poolVault: poolVaultPda,
                 bet: betPda,
                 userTokenAccount,
@@ -159,13 +155,16 @@ export async function placeEncryptedBet(
                 mempoolAccount: mempoolAccount,
                 executingPool: executingPool,
                 computationAccount: computationAccount,
-                compDefAccount: compDefAccount,
+                compDefAccount: getCompDefAccAddress(
+                    PROGRAM_ID,
+                    Buffer.from(getCompDefAccOffset("process_bet")).readUInt32LE()
+                ),
                 clusterAccount: clusterAccount,
-                poolAccount: poolAccount,
-                clockAccount: clockAccount,
-                tokenProgram: TOKEN_PROGRAM_ID,
-                systemProgram: SystemProgram.programId,
-                arciumProgram: ARCIUM_PROGRAM_ID
+                // poolAccount: poolAccount,
+                // clockAccount: clockAccount,
+                // tokenProgram: TOKEN_PROGRAM_ID,
+                // systemProgram: SystemProgram.programId,
+                // arciumProgram: ARCIUM_PROGRAM_ID
             })
             .transaction()
 
@@ -182,7 +181,7 @@ export async function placeEncryptedBet(
 
         console.log("[v0] Transaction successful:", signature)
         return signature
-    } catch (error) {
+    } catch (error: any) {
         console.error("[v0] Place bet error:", error);
 
         if ("logs" in error) {

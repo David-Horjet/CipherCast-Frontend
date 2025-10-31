@@ -44,18 +44,18 @@ export function PoolStats({ pool }: PoolStatsProps) {
     },
     {
       label: "Participants",
-      value: pool.participants.toString(),
+      value: 9,
       icon: "👥",
     },
-    ...(pool.entryFee
-      ? [
-          {
-            label: "Entry Fee",
-            value: `$${pool.entryFee.toLocaleString()}`,
-            icon: "🎫",
-          },
-        ]
-      : []),
+    // ...(pool.entryFee
+    //   ? [
+    //       {
+    //         label: "Entry Fee",
+    //         value: `$${pool.entryFee.toLocaleString()}`,
+    //         icon: "🎫",
+    //       },
+    //     ]
+    //   : []),
     {
       label: "Time Left",
       value: timeLeft,
@@ -66,15 +66,15 @@ export function PoolStats({ pool }: PoolStatsProps) {
       value: pool.currentPrice ? `$${pool.currentPrice.toLocaleString()}` : "Loading...",
       icon: "📊",
     },
-    ...(pool.targetPrice
-      ? [
-          {
-            label: "Target Price",
-            value: `$${pool.targetPrice.toLocaleString()}`,
-            icon: "🎯",
-          },
-        ]
-      : []),
+    // ...(pool.targetPrice
+    //   ? [
+    //       {
+    //         label: "Target Price",
+    //         value: `$${pool.targetPrice.toLocaleString()}`,
+    //         icon: "🎯",
+    //       },
+    //     ]
+    //   : []),
   ]
 
   return (

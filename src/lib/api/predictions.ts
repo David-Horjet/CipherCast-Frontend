@@ -17,7 +17,7 @@ export interface CreatePredictionResponse {
     predicted_price: number
     amount: number
     reward: number | null
-    status: string
+    status: "active" | "completed"
     created_at: string
   }
 }

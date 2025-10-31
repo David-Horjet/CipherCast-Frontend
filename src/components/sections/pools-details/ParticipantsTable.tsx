@@ -51,7 +51,7 @@ export function ParticipantsTable({ poolId }: ParticipantsTableProps) {
                 </td>
                 <td className="py-3 px-4">
                   <span className="font-mono text-sm font-semibold text-primary">
-                    ${participant.prediction.toLocaleString()}
+                    *******
                   </span>
                 </td>
                 <td className="py-3 px-4">

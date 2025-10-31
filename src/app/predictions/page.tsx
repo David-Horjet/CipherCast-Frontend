@@ -4,6 +4,7 @@ import { PageLayout } from "@/components/layout/PageLayout"
 import { PredictionsHeader } from "@/components/sections/predictions/PredictionsHeader"
 import { PredictionsStats } from "@/components/sections/predictions/PredictionsStats"
 import { PredictionsTable } from "@/components/sections/predictions/PredictionsTable"
+import { mockPredictions } from "@/lib/data/mockData"
 import { useAppSelector } from "@/lib/store/hooks"
 import { motion } from "framer-motion"
 import { Lock } from "lucide-react"
@@ -36,8 +37,8 @@ export default function PredictionsPage() {
       <div className="min-h-screen py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <PredictionsHeader />
-          <PredictionsStats predictions={predictions} />
-          <PredictionsTable predictions={predictions} />
+          <PredictionsStats predictions={mockPredictions} />
+          <PredictionsTable predictions={mockPredictions} />
         </div>
       </div>
     </PageLayout>

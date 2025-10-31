@@ -84,6 +84,7 @@ export function PredictionsTable({ predictions }: PredictionsTableProps) {
               <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Reward</th>
               <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Status</th>
               <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Date</th>
+              <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Claim</th>
             </tr>
           </thead>
           <tbody>
@@ -110,7 +111,7 @@ export function PredictionsTable({ predictions }: PredictionsTableProps) {
                 </td>
                 <td className="py-3 px-4">
                   <span className="font-mono text-sm text-foreground">
-                    {prediction.actualPrice ? `$${prediction.actualPrice.toLocaleString()}` : "-"}
+                    {prediction.actualPrice ? `*****` : "-"}
                   </span>
                 </td>
                 <td className="py-3 px-4">
@@ -129,6 +130,14 @@ export function PredictionsTable({ predictions }: PredictionsTableProps) {
                 <td className="py-3 px-4">{getStatusBadge(prediction.status)}</td>
                 <td className="py-3 px-4">
                   <span className="text-sm text-muted-foreground">{formatDate(prediction.timestamp)}</span>
+                </td>
+                <td className="py-3 px-4">
+                  <span className="text-sm text-muted-foreground"><button
+                    disabled={prediction.status !== "completed" || true}
+                    className="relative px-6 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-primary to-accent rounded-xl transition-smooth hover:shadow-lg hover:shadow-primary/50 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Claim
+                  </button></span>
                 </td>
               </motion.tr>
             ))}
