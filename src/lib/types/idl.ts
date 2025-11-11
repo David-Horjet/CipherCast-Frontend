@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/swiv_privacy.json`.
  */
 export type SwivPrivacy = {
-  "address": "729ib6LPCHmj13pZA2F1airFN23pG3diK4bWUTaxw3Fz",
+  "address": "8D6DiY4fWkyJ2QicNacEJFoA4cNaCfbs9r215oGLxW73",
   "metadata": {
     "name": "swivPrivacy",
     "version": "0.1.0",
@@ -159,11 +159,11 @@ export type SwivPrivacy = {
         {
           "name": "poolAccount",
           "writable": true,
-          "address": "7MGSS4iKNM4sVib7bDZDJhVqB6EcchPwVnTKenCY1jt3"
+          "address": "FsWbPQcJQ2cCyr9ndse13fDqds4F2Ezx2WgTL25Dke4M"
         },
         {
           "name": "clockAccount",
-          "address": "FHriyvoZotYiFnbUzKFjzRSb2NiaC8RPWY7jtKuKhg65"
+          "address": "AxygBawEvVwZPetj3yPJb9sGdZvaJYsVguET1zFUQkV"
         },
         {
           "name": "systemProgram",
@@ -171,7 +171,7 @@ export type SwivPrivacy = {
         },
         {
           "name": "arciumProgram",
-          "address": "BKck65TgoKRokMjQM3datB9oRwJ8rAj2jxPXvHXUvcL6"
+          "address": "Bv3Fb9VjzjWGfX18QTUcVycAfeLoQ5zZN6vv2g3cTZxp"
         }
       ],
       "args": [
@@ -309,7 +309,7 @@ export type SwivPrivacy = {
         },
         {
           "name": "arciumProgram",
-          "address": "BKck65TgoKRokMjQM3datB9oRwJ8rAj2jxPXvHXUvcL6"
+          "address": "Bv3Fb9VjzjWGfX18QTUcVycAfeLoQ5zZN6vv2g3cTZxp"
         },
         {
           "name": "compDefAccount"
@@ -601,7 +601,7 @@ export type SwivPrivacy = {
         },
         {
           "name": "arciumProgram",
-          "address": "BKck65TgoKRokMjQM3datB9oRwJ8rAj2jxPXvHXUvcL6"
+          "address": "Bv3Fb9VjzjWGfX18QTUcVycAfeLoQ5zZN6vv2g3cTZxp"
         },
         {
           "name": "systemProgram",
@@ -641,7 +641,7 @@ export type SwivPrivacy = {
         },
         {
           "name": "arciumProgram",
-          "address": "BKck65TgoKRokMjQM3datB9oRwJ8rAj2jxPXvHXUvcL6"
+          "address": "Bv3Fb9VjzjWGfX18QTUcVycAfeLoQ5zZN6vv2g3cTZxp"
         },
         {
           "name": "systemProgram",
@@ -865,11 +865,11 @@ export type SwivPrivacy = {
         {
           "name": "poolAccount",
           "writable": true,
-          "address": "7MGSS4iKNM4sVib7bDZDJhVqB6EcchPwVnTKenCY1jt3"
+          "address": "FsWbPQcJQ2cCyr9ndse13fDqds4F2Ezx2WgTL25Dke4M"
         },
         {
           "name": "clockAccount",
-          "address": "FHriyvoZotYiFnbUzKFjzRSb2NiaC8RPWY7jtKuKhg65"
+          "address": "AxygBawEvVwZPetj3yPJb9sGdZvaJYsVguET1zFUQkV"
         },
         {
           "name": "tokenProgram",
@@ -881,7 +881,7 @@ export type SwivPrivacy = {
         },
         {
           "name": "arciumProgram",
-          "address": "BKck65TgoKRokMjQM3datB9oRwJ8rAj2jxPXvHXUvcL6"
+          "address": "Bv3Fb9VjzjWGfX18QTUcVycAfeLoQ5zZN6vv2g3cTZxp"
         }
       ],
       "args": [
@@ -931,7 +931,7 @@ export type SwivPrivacy = {
       "accounts": [
         {
           "name": "arciumProgram",
-          "address": "BKck65TgoKRokMjQM3datB9oRwJ8rAj2jxPXvHXUvcL6"
+          "address": "Bv3Fb9VjzjWGfX18QTUcVycAfeLoQ5zZN6vv2g3cTZxp"
         },
         {
           "name": "compDefAccount"
@@ -959,6 +959,116 @@ export type SwivPrivacy = {
               ]
             }
           }
+        }
+      ]
+    },
+    {
+      "name": "transferAdmin",
+      "docs": [
+        "Transfer admin authority to a new address"
+      ],
+      "discriminator": [
+        42,
+        242,
+        66,
+        106,
+        228,
+        10,
+        111,
+        156
+      ],
+      "accounts": [
+        {
+          "name": "protocolState",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newAdmin",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "updateProtocolFee",
+      "docs": [
+        "Update the protocol fee basis points"
+      ],
+      "discriminator": [
+        170,
+        136,
+        6,
+        60,
+        43,
+        130,
+        81,
+        96
+      ],
+      "accounts": [
+        {
+          "name": "protocolState",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newFeeBps",
+          "type": "u16"
         }
       ]
     }
@@ -1084,6 +1194,19 @@ export type SwivPrivacy = {
   ],
   "events": [
     {
+      "name": "adminTransferredEvent",
+      "discriminator": [
+        158,
+        233,
+        64,
+        41,
+        184,
+        122,
+        98,
+        76
+      ]
+    },
+    {
       "name": "betProcessedEvent",
       "discriminator": [
         201,
@@ -1136,6 +1259,19 @@ export type SwivPrivacy = {
       ]
     },
     {
+      "name": "protocolFeeUpdatedEvent",
+      "discriminator": [
+        248,
+        27,
+        112,
+        250,
+        51,
+        251,
+        106,
+        195
+      ]
+    },
+    {
       "name": "rewardClaimedEvent",
       "discriminator": [
         246,
@@ -1152,13 +1288,88 @@ export type SwivPrivacy = {
   "errors": [
     {
       "code": 6000,
-      "name": "invalidFinalizeTx",
-      "msg": "Invalid finalize transaction"
+      "name": "invalidFee",
+      "msg": "Invalid protocol fee"
     },
     {
       "code": 6001,
-      "name": "invalidAccount",
-      "msg": "Invalid account"
+      "name": "invalidNewAdmin",
+      "msg": "Invalid new admin"
+    },
+    {
+      "code": 6002,
+      "name": "assetSymbolTooLong",
+      "msg": "Asset symbol too long"
+    },
+    {
+      "code": 6003,
+      "name": "invalidEntryFee",
+      "msg": "Invalid entry fee"
+    },
+    {
+      "code": 6004,
+      "name": "invalidTimestamp",
+      "msg": "Invalid timestamp"
+    },
+    {
+      "code": 6005,
+      "name": "invalidMaxParticipants",
+      "msg": "Invalid max participants"
+    },
+    {
+      "code": 6006,
+      "name": "poolNotActive",
+      "msg": "Pool is not active"
+    },
+    {
+      "code": 6007,
+      "name": "predictionTimePassed",
+      "msg": "Prediction time has passed"
+    },
+    {
+      "code": 6008,
+      "name": "poolFull",
+      "msg": "Pool is full"
+    },
+    {
+      "code": 6009,
+      "name": "invalidPredictedPrice",
+      "msg": "Invalid predicted price"
+    },
+    {
+      "code": 6010,
+      "name": "predictionTimeNotReached",
+      "msg": "Prediction time not reached yet"
+    },
+    {
+      "code": 6011,
+      "name": "invalidActualPrice",
+      "msg": "Invalid actual price"
+    },
+    {
+      "code": 6012,
+      "name": "poolNotFinalized",
+      "msg": "Pool not finalized"
+    },
+    {
+      "code": 6013,
+      "name": "alreadyClaimed",
+      "msg": "Reward already claimed"
+    },
+    {
+      "code": 6014,
+      "name": "unauthorized",
+      "msg": "unauthorized"
+    },
+    {
+      "code": 6015,
+      "name": "abortedComputation",
+      "msg": "The computation was aborted"
+    },
+    {
+      "code": 6016,
+      "name": "clusterNotSet",
+      "msg": "Cluster not set"
     }
   ],
   "types": [
@@ -1182,6 +1393,22 @@ export type SwivPrivacy = {
                 "name": "epoch"
               }
             }
+          }
+        ]
+      }
+    },
+    {
+      "name": "adminTransferredEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "oldAdmin",
+            "type": "pubkey"
+          },
+          {
+            "name": "newAdmin",
+            "type": "pubkey"
           }
         ]
       }
@@ -1405,10 +1632,6 @@ export type SwivPrivacy = {
             "type": {
               "option": "pubkey"
             }
-          },
-          {
-            "name": "finalizeDuringCallback",
-            "type": "bool"
           },
           {
             "name": "cuAmount",
@@ -1642,10 +1865,20 @@ export type SwivPrivacy = {
             }
           },
           {
-            "name": "x25519Pubkey",
+            "name": "utilityPubkeys",
             "type": {
               "defined": {
-                "name": "x25519Pubkey"
+                "name": "setUnset",
+                "generics": [
+                  {
+                    "kind": "type",
+                    "type": {
+                      "defined": {
+                        "name": "utilityPubkeys"
+                      }
+                    }
+                  }
+                ]
               }
             }
           },
@@ -1773,6 +2006,9 @@ export type SwivPrivacy = {
           },
           {
             "name": "plaintextFloat"
+          },
+          {
+            "name": "plaintextPoint"
           }
         ]
       }
@@ -1980,6 +2216,22 @@ export type SwivPrivacy = {
       }
     },
     {
+      "name": "protocolFeeUpdatedEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "oldFeeBps",
+            "type": "u16"
+          },
+          {
+            "name": "newFeeBps",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
       "name": "protocolState",
       "type": {
         "kind": "struct",
@@ -2023,6 +2275,39 @@ export type SwivPrivacy = {
           {
             "name": "accuracyBps",
             "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "setUnset",
+      "generics": [
+        {
+          "kind": "type",
+          "name": "t"
+        }
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "set",
+            "fields": [
+              {
+                "generic": "t"
+              }
+            ]
+          },
+          {
+            "name": "unset",
+            "fields": [
+              {
+                "generic": "t"
+              },
+              {
+                "vec": "bool"
+              }
+            ]
           }
         ]
       }
@@ -2096,34 +2381,45 @@ export type SwivPrivacy = {
       }
     },
     {
-      "name": "x25519Pubkey",
+      "name": "utilityPubkeys",
       "type": {
-        "kind": "enum",
-        "variants": [
+        "kind": "struct",
+        "fields": [
           {
-            "name": "set",
-            "fields": [
-              {
-                "array": [
-                  "u8",
-                  32
-                ]
-              }
-            ]
+            "name": "x25519Pubkey",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
           },
           {
-            "name": "unset",
-            "fields": [
-              {
-                "array": [
-                  "u8",
-                  32
-                ]
-              },
-              {
-                "vec": "bool"
-              }
-            ]
+            "name": "ed25519VerifyingKey",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "elgamalPubkey",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "pubkeyValidityProof",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
           }
         ]
       }

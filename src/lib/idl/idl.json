@@ -1,5 +1,5 @@
 {
-  "address": "729ib6LPCHmj13pZA2F1airFN23pG3diK4bWUTaxw3Fz",
+  "address": "8D6DiY4fWkyJ2QicNacEJFoA4cNaCfbs9r215oGLxW73",
   "metadata": {
     "name": "swiv_privacy",
     "version": "0.1.0",
@@ -153,11 +153,11 @@
         {
           "name": "pool_account",
           "writable": true,
-          "address": "7MGSS4iKNM4sVib7bDZDJhVqB6EcchPwVnTKenCY1jt3"
+          "address": "FsWbPQcJQ2cCyr9ndse13fDqds4F2Ezx2WgTL25Dke4M"
         },
         {
           "name": "clock_account",
-          "address": "FHriyvoZotYiFnbUzKFjzRSb2NiaC8RPWY7jtKuKhg65"
+          "address": "AxygBawEvVwZPetj3yPJb9sGdZvaJYsVguET1zFUQkV"
         },
         {
           "name": "system_program",
@@ -165,7 +165,7 @@
         },
         {
           "name": "arcium_program",
-          "address": "BKck65TgoKRokMjQM3datB9oRwJ8rAj2jxPXvHXUvcL6"
+          "address": "Bv3Fb9VjzjWGfX18QTUcVycAfeLoQ5zZN6vv2g3cTZxp"
         }
       ],
       "args": [
@@ -303,7 +303,7 @@
         },
         {
           "name": "arcium_program",
-          "address": "BKck65TgoKRokMjQM3datB9oRwJ8rAj2jxPXvHXUvcL6"
+          "address": "Bv3Fb9VjzjWGfX18QTUcVycAfeLoQ5zZN6vv2g3cTZxp"
         },
         {
           "name": "comp_def_account"
@@ -595,7 +595,7 @@
         },
         {
           "name": "arcium_program",
-          "address": "BKck65TgoKRokMjQM3datB9oRwJ8rAj2jxPXvHXUvcL6"
+          "address": "Bv3Fb9VjzjWGfX18QTUcVycAfeLoQ5zZN6vv2g3cTZxp"
         },
         {
           "name": "system_program",
@@ -635,7 +635,7 @@
         },
         {
           "name": "arcium_program",
-          "address": "BKck65TgoKRokMjQM3datB9oRwJ8rAj2jxPXvHXUvcL6"
+          "address": "Bv3Fb9VjzjWGfX18QTUcVycAfeLoQ5zZN6vv2g3cTZxp"
         },
         {
           "name": "system_program",
@@ -859,11 +859,11 @@
         {
           "name": "pool_account",
           "writable": true,
-          "address": "7MGSS4iKNM4sVib7bDZDJhVqB6EcchPwVnTKenCY1jt3"
+          "address": "FsWbPQcJQ2cCyr9ndse13fDqds4F2Ezx2WgTL25Dke4M"
         },
         {
           "name": "clock_account",
-          "address": "FHriyvoZotYiFnbUzKFjzRSb2NiaC8RPWY7jtKuKhg65"
+          "address": "AxygBawEvVwZPetj3yPJb9sGdZvaJYsVguET1zFUQkV"
         },
         {
           "name": "token_program",
@@ -875,7 +875,7 @@
         },
         {
           "name": "arcium_program",
-          "address": "BKck65TgoKRokMjQM3datB9oRwJ8rAj2jxPXvHXUvcL6"
+          "address": "Bv3Fb9VjzjWGfX18QTUcVycAfeLoQ5zZN6vv2g3cTZxp"
         }
       ],
       "args": [
@@ -925,7 +925,7 @@
       "accounts": [
         {
           "name": "arcium_program",
-          "address": "BKck65TgoKRokMjQM3datB9oRwJ8rAj2jxPXvHXUvcL6"
+          "address": "Bv3Fb9VjzjWGfX18QTUcVycAfeLoQ5zZN6vv2g3cTZxp"
         },
         {
           "name": "comp_def_account"
@@ -953,6 +953,116 @@
               ]
             }
           }
+        }
+      ]
+    },
+    {
+      "name": "transfer_admin",
+      "docs": [
+        "Transfer admin authority to a new address"
+      ],
+      "discriminator": [
+        42,
+        242,
+        66,
+        106,
+        228,
+        10,
+        111,
+        156
+      ],
+      "accounts": [
+        {
+          "name": "protocol_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "new_admin",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "update_protocol_fee",
+      "docs": [
+        "Update the protocol fee basis points"
+      ],
+      "discriminator": [
+        170,
+        136,
+        6,
+        60,
+        43,
+        130,
+        81,
+        96
+      ],
+      "accounts": [
+        {
+          "name": "protocol_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "new_fee_bps",
+          "type": "u16"
         }
       ]
     }
@@ -1078,6 +1188,19 @@
   ],
   "events": [
     {
+      "name": "AdminTransferredEvent",
+      "discriminator": [
+        158,
+        233,
+        64,
+        41,
+        184,
+        122,
+        98,
+        76
+      ]
+    },
+    {
       "name": "BetProcessedEvent",
       "discriminator": [
         201,
@@ -1130,6 +1253,19 @@
       ]
     },
     {
+      "name": "ProtocolFeeUpdatedEvent",
+      "discriminator": [
+        248,
+        27,
+        112,
+        250,
+        51,
+        251,
+        106,
+        195
+      ]
+    },
+    {
       "name": "RewardClaimedEvent",
       "discriminator": [
         246,
@@ -1146,13 +1282,88 @@
   "errors": [
     {
       "code": 6000,
-      "name": "InvalidFinalizeTx",
-      "msg": "Invalid finalize transaction"
+      "name": "InvalidFee",
+      "msg": "Invalid protocol fee"
     },
     {
       "code": 6001,
-      "name": "InvalidAccount",
-      "msg": "Invalid account"
+      "name": "InvalidNewAdmin",
+      "msg": "Invalid new admin"
+    },
+    {
+      "code": 6002,
+      "name": "AssetSymbolTooLong",
+      "msg": "Asset symbol too long"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidEntryFee",
+      "msg": "Invalid entry fee"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidTimestamp",
+      "msg": "Invalid timestamp"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidMaxParticipants",
+      "msg": "Invalid max participants"
+    },
+    {
+      "code": 6006,
+      "name": "PoolNotActive",
+      "msg": "Pool is not active"
+    },
+    {
+      "code": 6007,
+      "name": "PredictionTimePassed",
+      "msg": "Prediction time has passed"
+    },
+    {
+      "code": 6008,
+      "name": "PoolFull",
+      "msg": "Pool is full"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidPredictedPrice",
+      "msg": "Invalid predicted price"
+    },
+    {
+      "code": 6010,
+      "name": "PredictionTimeNotReached",
+      "msg": "Prediction time not reached yet"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidActualPrice",
+      "msg": "Invalid actual price"
+    },
+    {
+      "code": 6012,
+      "name": "PoolNotFinalized",
+      "msg": "Pool not finalized"
+    },
+    {
+      "code": 6013,
+      "name": "AlreadyClaimed",
+      "msg": "Reward already claimed"
+    },
+    {
+      "code": 6014,
+      "name": "Unauthorized",
+      "msg": "Unauthorized"
+    },
+    {
+      "code": 6015,
+      "name": "AbortedComputation",
+      "msg": "The computation was aborted"
+    },
+    {
+      "code": 6016,
+      "name": "ClusterNotSet",
+      "msg": "Cluster not set"
     }
   ],
   "types": [
@@ -1176,6 +1387,22 @@
                 "name": "Epoch"
               }
             }
+          }
+        ]
+      }
+    },
+    {
+      "name": "AdminTransferredEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "old_admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "new_admin",
+            "type": "pubkey"
           }
         ]
       }
@@ -1399,10 +1626,6 @@
             "type": {
               "option": "pubkey"
             }
-          },
-          {
-            "name": "finalize_during_callback",
-            "type": "bool"
           },
           {
             "name": "cu_amount",
@@ -1636,10 +1859,20 @@
             }
           },
           {
-            "name": "x25519_pubkey",
+            "name": "utility_pubkeys",
             "type": {
               "defined": {
-                "name": "X25519Pubkey"
+                "name": "SetUnset",
+                "generics": [
+                  {
+                    "kind": "type",
+                    "type": {
+                      "defined": {
+                        "name": "UtilityPubkeys"
+                      }
+                    }
+                  }
+                ]
               }
             }
           },
@@ -1767,6 +2000,9 @@
           },
           {
             "name": "PlaintextFloat"
+          },
+          {
+            "name": "PlaintextPoint"
           }
         ]
       }
@@ -1974,6 +2210,22 @@
       }
     },
     {
+      "name": "ProtocolFeeUpdatedEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "old_fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "new_fee_bps",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
       "name": "ProtocolState",
       "type": {
         "kind": "struct",
@@ -2017,6 +2269,39 @@
           {
             "name": "accuracy_bps",
             "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SetUnset",
+      "generics": [
+        {
+          "kind": "type",
+          "name": "T"
+        }
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Set",
+            "fields": [
+              {
+                "generic": "T"
+              }
+            ]
+          },
+          {
+            "name": "Unset",
+            "fields": [
+              {
+                "generic": "T"
+              },
+              {
+                "vec": "bool"
+              }
+            ]
           }
         ]
       }
@@ -2090,34 +2375,45 @@
       }
     },
     {
-      "name": "X25519Pubkey",
+      "name": "UtilityPubkeys",
       "type": {
-        "kind": "enum",
-        "variants": [
+        "kind": "struct",
+        "fields": [
           {
-            "name": "Set",
-            "fields": [
-              {
-                "array": [
-                  "u8",
-                  32
-                ]
-              }
-            ]
+            "name": "x25519_pubkey",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
           },
           {
-            "name": "Unset",
-            "fields": [
-              {
-                "array": [
-                  "u8",
-                  32
-                ]
-              },
-              {
-                "vec": "bool"
-              }
-            ]
+            "name": "ed25519_verifying_key",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "elgamal_pubkey",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "pubkey_validity_proof",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
           }
         ]
       }
