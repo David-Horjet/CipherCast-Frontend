@@ -140,7 +140,7 @@ export const getPoolById = async (poolId: string) => {
       symbol: pool.asset_symbol,
       poolSize: pool.total_pool_amount
         ? lamportsToUSDC(pool.total_pool_amount)
-        : lamportsToUSDC(pool.entry_fee * pool.max_participants),
+        : lamportsToUSDC(0),
       participants: pool.total_participants || 0,
       deadline: pool.end_time,
       status: mapStatus(pool.status),

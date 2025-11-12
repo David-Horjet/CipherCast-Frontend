@@ -27,7 +27,10 @@ export function ParticipantsTable({ poolId }: ParticipantsTableProps) {
         <p className="text-sm text-muted-foreground">Latest predictions from participants</p>
       </div>
 
-      <div className="overflow-x-auto">
+
+
+      <div className="text-center text-sm mt-10">Coming soon.</div>
+      {/* <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr className="border-b border-border">
@@ -64,7 +67,7 @@ export function ParticipantsTable({ poolId }: ParticipantsTableProps) {
             ))}
           </tbody>
         </table>
-      </div>
+      </div> */}
     </motion.div>
   )
 }

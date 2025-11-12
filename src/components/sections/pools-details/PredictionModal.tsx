@@ -89,7 +89,6 @@ export function PredictionModal({ pool, onClose }: PredictionModalProps) {
       const backendResponse = await createPrediction({
         poolId: pool.id,
         userWallet: embeddedWallet.address,
-        predictedPrice: price.toString(),
         amount: stake.toString(),
       })
 

@@ -36,7 +36,7 @@ export async function placeEncryptedBet(
     embeddedWallet: any,
     signTransaction: (tx: Transaction) => Promise<Transaction>,
     params: PlaceBetParams,
-): Promise<{ signature: string; computationFinalized: boolean }> {
+): Promise<{ signature: string; }> {
     try {
         console.log("[placeEncryptedBet] Starting encrypted bet placement...", embeddedWallet)
         const walletPublicKey = new PublicKey(embeddedWallet.address)
@@ -150,39 +150,38 @@ export async function placeEncryptedBet(
         console.log("[placeEncryptedBet] Bet placed successfully:", signature)
 
         // Await computation finalization
-        let computationFinalized = false
-        try {
-            console.log("[placeEncryptedBet] Awaiting MPC computation finalization...")
+        // let computationFinalized = false
+        // try {
+        //     console.log("[placeEncryptedBet] Awaiting MPC computation finalization...")
             
-            const timeoutMs = 30000 // 30 second timeout
-            const finalizeSig = await Promise.race([
-                awaitComputationFinalization(
-                    provider,
-                    processBetComputationOffset,
-                    PROGRAM_ID,
-                    "confirmed"
-                ),
-                new Promise<string>((_, reject) =>
-                    setTimeout(() => reject(new Error("MPC computation timeout")), timeoutMs)
-                ),
-            ])
+        //     const timeoutMs = 30000 // 30 second timeout
+        //     const finalizeSig = await Promise.race([
+        //         awaitComputationFinalization(
+        //             provider,
+        //             processBetComputationOffset,
+        //             PROGRAM_ID,
+        //             "confirmed"
+        //         ),
+        //         new Promise<string>((_, reject) =>
+        //             setTimeout(() => reject(new Error("MPC computation timeout")), timeoutMs)
+        //         ),
+        //     ])
             
-            console.log("[placeEncryptedBet] ✅ Computation finalized:", finalizeSig)
-            computationFinalized = true
-        } catch (error: any) {
-            if (error.message?.includes("ECONNREFUSED") || error.message?.includes("timeout")) {
-                console.log("[placeEncryptedBet] ⚠️  MPC network not available or computation timed out")
-                console.log("[placeEncryptedBet]    Bet was placed successfully on-chain")
-                console.log("[placeEncryptedBet]    MPC computation will complete asynchronously")
-            } else {
-                console.error("[placeEncryptedBet] Computation finalization error:", error)
-                // Don't throw - bet was already placed successfully
-            }
-        }
+        //     console.log("[placeEncryptedBet] ✅ Computation finalized:", finalizeSig)
+        //     computationFinalized = true
+        // } catch (error: any) {
+        //     if (error.message?.includes("ECONNREFUSED") || error.message?.includes("timeout")) {
+        //         console.log("[placeEncryptedBet] ⚠️  MPC network not available or computation timed out")
+        //         console.log("[placeEncryptedBet]    Bet was placed successfully on-chain")
+        //         console.log("[placeEncryptedBet]    MPC computation will complete asynchronously")
+        //     } else {
+        //         console.error("[placeEncryptedBet] Computation finalization error:", error)
+        //         // Don't throw - bet was already placed successfully
+        //     }
+        // }
 
         return {
             signature,
-            computationFinalized
         }
     } catch (error: any) {
         console.error("[placeEncryptedBet] Place bet error:", error)

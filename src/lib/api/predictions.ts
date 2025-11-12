@@ -3,7 +3,6 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.cypher
 export interface CreatePredictionRequest {
   poolId: string
   userWallet: string
-  predictedPrice: string
   amount: string
 }
 
@@ -14,7 +13,6 @@ export interface CreatePredictionResponse {
     id: string
     pool_id: string
     user_wallet: string
-    predicted_price: number
     amount: number
     reward: number | null
     status: "active" | "completed"

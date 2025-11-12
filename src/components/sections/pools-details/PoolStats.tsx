@@ -44,7 +44,7 @@ export function PoolStats({ pool }: PoolStatsProps) {
     },
     {
       label: "Participants",
-      value: 9,
+      value: `${pool.participants.toLocaleString()}`,
       icon: "👥",
     },
     // ...(pool.entryFee
@@ -61,11 +61,11 @@ export function PoolStats({ pool }: PoolStatsProps) {
       value: timeLeft,
       icon: "⏰",
     },
-    {
-      label: "Current Price",
-      value: pool.currentPrice ? `$${pool.currentPrice.toLocaleString()}` : "Loading...",
-      icon: "📊",
-    },
+    // {
+    //   label: "Current Price",
+    //   value: pool.currentPrice ? `$${pool.currentPrice.toLocaleString()}` : "Loading...",
+    //   icon: "📊",
+    // },
     // ...(pool.targetPrice
     //   ? [
     //       {
