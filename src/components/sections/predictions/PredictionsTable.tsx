@@ -2,14 +2,30 @@
 
 import { motion } from "framer-motion"
 import type { Prediction } from "@/lib/store/slices/predictionsSlice"
+import { useAppDispatch } from "@/lib/store/hooks"
+import { updatePrediction } from "@/lib/store/slices/predictionsSlice"
 import Link from "next/link"
 import { BarChart } from "lucide-react"
+import { useState } from "react"
+import { usePrivy, useSolanaWallets } from "@privy-io/react-auth"
+import { Connection, PublicKey } from "@solana/web3.js"
+import { claimRewards } from "@/lib/solana/place-bet"
+import { claimReward } from "@/lib/api/predictions"
+import { useToast } from "@/lib/hooks/useToast"
 
 interface PredictionsTableProps {
   predictions: Prediction[]
 }
 
 export function PredictionsTable({ predictions }: PredictionsTableProps) {
+  const dispatch = useAppDispatch()
+  const toast = useToast()
+  const { authenticated } = usePrivy()
+  const { wallets } = useSolanaWallets()
+  const [claimingId, setClaimingId] = useState<string | null>(null)
+
+  const embeddedWallet = wallets.find((wallet) => wallet.walletClientType === "privy")
+
   const getStatusBadge = (status: string) => {
     const styles = {
       pending: "bg-blue-500/10 border-blue-500/20 text-blue-400",
@@ -47,6 +63,65 @@ export function PredictionsTable({ predictions }: PredictionsTableProps) {
     })
   }
 
+  const canClaimReward = (prediction: Prediction) => {
+    return prediction.pools.status === "resolved" && prediction.status === "pending" && prediction.reward
+  }
+
+  const handleClaimReward = async (prediction: Prediction) => {
+    if (!authenticated || !embeddedWallet) {
+      toast.error("Please connect your wallet first")
+      return
+    }
+
+    setClaimingId(prediction.id)
+    try {
+      toast.info("Processing claim on blockchain...")
+
+      const connection = new Connection(process.env.NEXT_PUBLIC_SOLANA_RPC_URL!, "confirmed")
+      const walletPublicKey = new PublicKey(embeddedWallet.address)
+
+      // Call blockchain claim function
+      const signature = await claimRewards(
+        connection,
+        walletPublicKey,
+        async (tx) => {
+          const signedTx = await embeddedWallet.signTransaction(tx)
+          return signedTx
+        },
+        {
+          poolId: Number.parseInt(prediction.pool_id),
+          mxeAccountAddress: process.env.NEXT_PUBLIC_MXE_ACCOUNT || "",
+          mempoolAccountAddress: process.env.NEXT_PUBLIC_MEMPOOL_ACCOUNT || "",
+          executingPoolAddress: process.env.NEXT_PUBLIC_EXECUTING_POOL_ACCOUNT || "",
+          computationAccountAddress: process.env.NEXT_PUBLIC_COMPUTATION_ACCOUNT || "",
+          compDefAccountAddress: process.env.NEXT_PUBLIC_COMP_DEF_ACCOUNT || "",
+          clusterAccountAddress: process.env.NEXT_PUBLIC_CLUSTER_ACCOUNT || "",
+        },
+      )
+
+      console.log("[v0] Claim transaction confirmed:", signature)
+      toast.info("Updating backend...")
+
+      // Call backend to update claim status
+      const backendResponse = await claimReward(prediction.id)
+
+      // Update Redux store
+      dispatch(
+        updatePrediction({
+          ...prediction,
+          status: "completed",
+        }),
+      )
+
+      toast.success("Reward claimed successfully!")
+    } catch (error: any) {
+      console.error("[v0] Claim reward error:", error)
+      toast.error(error.message || "Failed to claim reward")
+    } finally {
+      setClaimingId(null)
+    }
+  }
+
   if (predictions.length === 0) {
     return (
       <motion.div
@@ -75,7 +150,7 @@ export function PredictionsTable({ predictions }: PredictionsTableProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}
-      className="p-6 rounded-2xl bg-transparent border border-border"
+      className="p-6 rounded-2xl bg-card border border-border"
     >
       <div className="mb-6">
         <h2 className="text-xl font-bold text-foreground mb-2">All Predictions</h2>
@@ -93,6 +168,7 @@ export function PredictionsTable({ predictions }: PredictionsTableProps) {
               <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Reward</th>
               <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Status</th>
               <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Date</th>
+              <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -109,30 +185,43 @@ export function PredictionsTable({ predictions }: PredictionsTableProps) {
                     href={`/pools/${prediction.pool_id}`}
                     className="font-semibold text-foreground hover:text-primary transition-smooth"
                   >
-                    {prediction.pools?.asset_symbol}
+                    {prediction.pools.asset_symbol}
                   </Link>
                 </td>
                 <td className="py-3 px-4">
                   <span className="font-mono text-sm text-foreground">
-                    ${prediction.pools?.target_price?.toLocaleString()}
+                    ${prediction.pools.target_price.toLocaleString()}
                   </span>
                 </td>
                 <td className="py-3 px-4">
                   <span className="font-mono text-sm text-foreground">
-                    {prediction.pools?.final_price ? `$${prediction.pools?.final_price?.toLocaleString()}` : "-"}
+                    {prediction.pools.final_price ? `$${prediction.pools.final_price.toLocaleString()}` : "-"}
                   </span>
                 </td>
                 <td className="py-3 px-4">
-                  <span className="text-sm text-foreground">${prediction?.amount?.toLocaleString()}</span>
+                  <span className="text-sm text-foreground">${prediction.amount.toLocaleString()}</span>
                 </td>
                 <td className="py-3 px-4">
                   <span className="text-sm font-semibold text-green-400">
-                    {prediction.reward ? `$${prediction?.reward?.toLocaleString()}` : "-"}
+                    {prediction.reward ? `$${prediction.reward.toLocaleString()}` : "-"}
                   </span>
                 </td>
                 <td className="py-3 px-4">{getStatusBadge(prediction.status)}</td>
                 <td className="py-3 px-4">
                   <span className="text-sm text-muted-foreground">{formatDate(prediction.created_at)}</span>
+                </td>
+                <td className="py-3 px-4">
+                  {canClaimReward(prediction) ? (
+                    <button
+                      onClick={() => handleClaimReward(prediction)}
+                      disabled={claimingId === prediction.id}
+                      className="px-3 py-1 text-xs font-semibold text-white bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg transition-smooth hover:shadow-lg hover:shadow-green-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {claimingId === prediction.id ? "Claiming..." : "Claim"}
+                    </button>
+                  ) : (
+                    <span className="text-xs text-muted-foreground">-</span>
+                  )}
                 </td>
               </motion.tr>
             ))}

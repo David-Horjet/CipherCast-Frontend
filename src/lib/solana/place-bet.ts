@@ -18,8 +18,7 @@ import {
     getComputationAccAddress, 
     getExecutingPoolAccAddress, 
     getMempoolAccAddress, 
-    getMXEAccAddress,
-    awaitComputationFinalization
+    getMXEAccAddress
 } from "@arcium-hq/client"
 import { randomBytes } from "crypto"
 
@@ -29,6 +28,16 @@ export interface PlaceBetParams {
     poolId: number
     predictedPrice: number
     stakeAmount: number
+}
+
+export interface ClaimRewardsParams {
+  poolId: number
+  mxeAccountAddress: string
+  mempoolAccountAddress: string
+  executingPoolAddress: string
+  computationAccountAddress: string
+  compDefAccountAddress: string
+  clusterAccountAddress: string
 }
 
 export async function placeEncryptedBet(
@@ -168,4 +177,90 @@ export async function placeEncryptedBet(
 
         throw error
     }
+}
+
+export async function claimRewards(
+  connection: Connection,
+  walletPublicKey: PublicKey,
+  signTransaction: (tx: Transaction) => Promise<Transaction>,
+  params: ClaimRewardsParams,
+): Promise<string> {
+  try {
+    console.log("[v0] Starting claim rewards...")
+    console.log("[v0] Pool ID:", params.poolId)
+
+    // Derive PDAs
+    const [poolPda] = PublicKey.findProgramAddressSync(
+      [Buffer.from("pool"), new BN(params.poolId).toArrayLike(Buffer, "le", 8)],
+      PROGRAM_ID,
+    )
+
+    const [betPda] = PublicKey.findProgramAddressSync(
+      [Buffer.from("bet"), poolPda.toBuffer(), walletPublicKey.toBuffer()],
+      PROGRAM_ID,
+    )
+
+    const [signPdaAccount] = PublicKey.findProgramAddressSync([Buffer.from("SignerAccount")], PROGRAM_ID)
+
+    // Create mock wallet for Anchor Program
+    const mockWallet = {
+      publicKey: walletPublicKey,
+      signTransaction,
+      signAllTransactions: async (txs: Transaction[]) => {
+        return Promise.all(txs.map((tx) => signTransaction(tx)))
+      },
+    }
+
+    // Create program instance
+    const program = new Program<SwivPrivacy>(
+      IDL as SwivPrivacy,
+      {
+        connection,
+        publicKey: walletPublicKey,
+      } as any,
+    )
+
+    const computationOffset = new BN(0)
+
+    console.log("[v0] Building claim transaction...")
+    const tx = await program.methods
+      .calculateReward(computationOffset)
+      .accounts({
+        pool: poolPda,
+        bet: betPda,
+        user: walletPublicKey,
+        signPdaAccount,
+        mxeAccount: new PublicKey(params.mxeAccountAddress),
+        mempoolAccount: new PublicKey(params.mempoolAccountAddress),
+        executingPool: new PublicKey(params.executingPoolAddress),
+        computationAccount: new PublicKey(params.computationAccountAddress),
+        compDefAccount: new PublicKey(params.compDefAccountAddress),
+        clusterAccount: new PublicKey(params.clusterAccountAddress),
+        poolAccount: POOL_ACCOUNT,
+        clockAccount: CLOCK_ACCOUNT,
+        systemProgram: SystemProgram.programId,
+        arciumProgram: ARCIUM_PROGRAM_ID,
+      })
+      .transaction()
+
+    // Get recent blockhash
+    const { blockhash } = await connection.getLatestBlockhash()
+    tx.recentBlockhash = blockhash
+    tx.feePayer = walletPublicKey
+
+    console.log("[v0] Signing claim transaction...")
+    const signedTx = await signTransaction(tx)
+
+    console.log("[v0] Sending claim transaction...")
+    const signature = await connection.sendRawTransaction(signedTx.serialize())
+
+    console.log("[v0] Confirming claim transaction...")
+    await connection.confirmTransaction(signature, "confirmed")
+
+    console.log("[v0] Claim transaction successful:", signature)
+    return signature
+  } catch (error) {
+    console.error("[v0] Claim rewards error:", error)
+    throw error
+  }
 }

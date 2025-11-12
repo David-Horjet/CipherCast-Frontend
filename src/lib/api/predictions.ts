@@ -81,3 +81,21 @@ export async function fetchUserPredictions(walletAddress: string): Promise<Predi
 
   return response.json()
 }
+
+export async function claimReward(
+  predictionId: string,
+): Promise<{ status: string; message: string; data: { reward: number; status: string } }> {
+  const response = await fetch(`${API_BASE_URL}/api/predictions/${predictionId}/claim`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+
+  if (!response.ok) {
+    const error = await response.json()
+    throw new Error(error.message || "Failed to claim reward")
+  }
+
+  return response.json()
+}
