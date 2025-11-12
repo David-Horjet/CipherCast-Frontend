@@ -94,20 +94,6 @@ export function PredictionModal({ pool, onClose }: PredictionModalProps) {
 
       console.log("[v0] Backend response:", backendResponse)
 
-      dispatch(
-        addPrediction({
-          id: backendResponse.data.id,
-          poolId: pool.id,
-          asset: pool.asset,
-          predictedPrice: price,
-          stake,
-          timestamp: backendResponse.data.created_at,
-          status: backendResponse.data.status,
-        }),
-      )
-
-      dispatch(updateBalance(balance - stake))
-
       setIsSubmitting(false)
       setShowSuccess(true)
       toast.success("Prediction placed successfully!")

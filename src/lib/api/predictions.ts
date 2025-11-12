@@ -3,7 +3,6 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.swiv.x
 export interface CreatePredictionRequest {
   poolId: string
   userWallet: string
-  predictedPrice: string
   amount: string
 }
 
