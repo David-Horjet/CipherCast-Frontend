@@ -100,7 +100,7 @@ export function PredictionsTable({ predictions }: PredictionsTableProps) {
       toast.info("Updating backend...")
 
       // Call backend to update claim status
-      const backendResponse = await claimReward(prediction.id)
+      const backendResponse = await claimReward(prediction.id, embeddedWallet.address)
 
       // Update Redux store
       dispatch(

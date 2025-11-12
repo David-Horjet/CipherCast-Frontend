@@ -80,12 +80,14 @@ export async function fetchUserPredictions(walletAddress: string): Promise<Predi
 
 export async function claimReward(
   predictionId: string,
+  userWallet: string
 ): Promise<{ status: string; message: string; data: { reward: number; status: string } }> {
   const response = await fetch(`${API_BASE_URL}/api/predictions/${predictionId}/claim`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
+    body: JSON.stringify({ userWallet }),
   })
 
   if (!response.ok) {
