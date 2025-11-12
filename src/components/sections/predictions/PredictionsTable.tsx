@@ -109,25 +109,25 @@ export function PredictionsTable({ predictions }: PredictionsTableProps) {
                     href={`/pools/${prediction.pool_id}`}
                     className="font-semibold text-foreground hover:text-primary transition-smooth"
                   >
-                    {prediction.pools.asset_symbol}
+                    {prediction.pools?.asset_symbol}
                   </Link>
                 </td>
                 <td className="py-3 px-4">
                   <span className="font-mono text-sm text-foreground">
-                    ${prediction.pools.target_price.toLocaleString()}
+                    ${prediction.pools?.target_price?.toLocaleString()}
                   </span>
                 </td>
                 <td className="py-3 px-4">
                   <span className="font-mono text-sm text-foreground">
-                    {prediction.pools.final_price ? `$${prediction.pools.final_price.toLocaleString()}` : "-"}
+                    {prediction.pools?.final_price ? `$${prediction.pools?.final_price?.toLocaleString()}` : "-"}
                   </span>
                 </td>
                 <td className="py-3 px-4">
-                  <span className="text-sm text-foreground">${prediction.amount.toLocaleString()}</span>
+                  <span className="text-sm text-foreground">${prediction?.amount?.toLocaleString()}</span>
                 </td>
                 <td className="py-3 px-4">
                   <span className="text-sm font-semibold text-green-400">
-                    {prediction.reward ? `$${prediction.reward.toLocaleString()}` : "-"}
+                    {prediction.reward ? `$${prediction?.reward?.toLocaleString()}` : "-"}
                   </span>
                 </td>
                 <td className="py-3 px-4">{getStatusBadge(prediction.status)}</td>
