@@ -10,18 +10,26 @@ interface PredictionsTableProps {
 }
 
 export function PredictionsTable({ predictions }: PredictionsTableProps) {
-  const getStatusBadge = (status: Prediction["status"]) => {
+  const getStatusBadge = (status: string) => {
     const styles = {
+      pending: "bg-blue-500/10 border-blue-500/20 text-blue-400",
       active: "bg-blue-500/10 border-blue-500/20 text-blue-400",
       completed: "bg-green-500/10 border-green-500/20 text-green-400",
     }
 
     const labels = {
+      pending: "Pending",
       active: "Active",
       completed: "Completed",
     }
 
-    return <div className={`px-3 py-1 rounded-lg border text-xs font-medium ${styles[status]}`}>{labels[status]}</div>
+    return (
+      <div
+        className={`px-3 py-1 rounded-lg border text-xs font-medium ${styles[status as keyof typeof styles] || styles.pending}`}
+      >
+        {labels[status as keyof typeof labels] || status}
+      </div>
+    )
   }
 
   const getAccuracyColor = (accuracy?: number) => {
@@ -47,7 +55,9 @@ export function PredictionsTable({ predictions }: PredictionsTableProps) {
         transition={{ delay: 0.2 }}
         className="text-center py-20"
       >
-        <div className="w-full flex justify-center text-6xl mb-4"><BarChart /></div>
+        <div className="w-full flex justify-center mb-4">
+          <BarChart size={60} className="text-muted-foreground" />
+        </div>
         <h3 className="text-xl font-semibold text-foreground mb-2">No predictions yet</h3>
         <p className="text-muted-foreground mb-6">Start making predictions to see them here</p>
         <Link
@@ -65,7 +75,7 @@ export function PredictionsTable({ predictions }: PredictionsTableProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}
-      className="p-6 rounded-2xl border border-border"
+      className="p-6 rounded-2xl bg-card border border-border"
     >
       <div className="mb-6">
         <h2 className="text-xl font-bold text-foreground mb-2">All Predictions</h2>
@@ -77,14 +87,12 @@ export function PredictionsTable({ predictions }: PredictionsTableProps) {
           <thead>
             <tr className="border-b border-border">
               <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Asset</th>
-              <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Predicted</th>
-              <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Actual</th>
-              <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Accuracy</th>
+              <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Target Price</th>
+              <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Final Price</th>
               <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Stake</th>
               <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Reward</th>
               <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Status</th>
               <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Date</th>
-              <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Claim</th>
             </tr>
           </thead>
           <tbody>
@@ -98,29 +106,24 @@ export function PredictionsTable({ predictions }: PredictionsTableProps) {
               >
                 <td className="py-3 px-4">
                   <Link
-                    href={`/pools/${prediction.poolId}`}
+                    href={`/pools/${prediction.pool_id}`}
                     className="font-semibold text-foreground hover:text-primary transition-smooth"
                   >
-                    {prediction.asset}
+                    {prediction.pools.asset_symbol}
                   </Link>
                 </td>
                 <td className="py-3 px-4">
                   <span className="font-mono text-sm text-foreground">
-                    ${prediction.predictedPrice.toLocaleString()}
+                    ${prediction.pools.target_price.toLocaleString()}
                   </span>
                 </td>
                 <td className="py-3 px-4">
                   <span className="font-mono text-sm text-foreground">
-                    {prediction.actualPrice ? `*****` : "-"}
+                    {prediction.pools.final_price ? `$${prediction.pools.final_price.toLocaleString()}` : "-"}
                   </span>
                 </td>
                 <td className="py-3 px-4">
-                  <span className={`font-semibold text-sm ${getAccuracyColor(prediction.accuracy)}`}>
-                    {prediction.accuracy ? `${prediction.accuracy.toFixed(1)}%` : "-"}
-                  </span>
-                </td>
-                <td className="py-3 px-4">
-                  <span className="text-sm text-foreground">${prediction.stake.toLocaleString()}</span>
+                  <span className="text-sm text-foreground">${prediction.amount.toLocaleString()}</span>
                 </td>
                 <td className="py-3 px-4">
                   <span className="text-sm font-semibold text-green-400">
@@ -129,15 +132,7 @@ export function PredictionsTable({ predictions }: PredictionsTableProps) {
                 </td>
                 <td className="py-3 px-4">{getStatusBadge(prediction.status)}</td>
                 <td className="py-3 px-4">
-                  <span className="text-sm text-muted-foreground">{formatDate(prediction.timestamp)}</span>
-                </td>
-                <td className="py-3 px-4">
-                  <span className="text-sm text-muted-foreground"><button
-                    disabled={prediction.status !== "completed" || true}
-                    className="relative px-6 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-primary to-accent rounded-xl transition-smooth hover:shadow-lg hover:shadow-primary/50 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Claim
-                  </button></span>
+                  <span className="text-sm text-muted-foreground">{formatDate(prediction.created_at)}</span>
                 </td>
               </motion.tr>
             ))}
