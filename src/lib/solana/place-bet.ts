@@ -214,7 +214,7 @@ export async function claimRewards(
         )
         const compDefAccount = getCompDefAccAddress(
             PROGRAM_ID,
-            Buffer.from(getCompDefAccOffset("calculate_reward")).readUInt32LE()
+            Buffer.from(getCompDefAccOffset("calculate_reward_v2")).readUInt32LE()
         )
         const clusterAccount = getClusterAccAddress(768109697)
 
