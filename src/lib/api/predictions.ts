@@ -1,3 +1,5 @@
+import { PoolResponse } from "./pools"
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.swiv.xyz"
 
 export interface CreatePredictionRequest {
@@ -55,13 +57,7 @@ export interface PredictionsResponse {
       reward: number | null
       status: "pending" | "completed"
       created_at: string
-      pools: {
-        id: string
-        asset_symbol: string
-        target_price: number
-        final_price: number | null
-        status: string
-      }
+      pools: PoolResponse
     }>
   }
 }

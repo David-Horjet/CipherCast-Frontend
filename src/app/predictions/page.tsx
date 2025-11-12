@@ -39,13 +39,13 @@ export default function PredictionsPage() {
   if (!isConnected) {
     return (
       <PageLayout>
-        <div className="min-h-screen flex items-center justify-center py-20">
+        <div className="min-h-screen flex items-center justify-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center max-w-md mx-auto px-4"
           >
-            <div className="text-6xl mb-4">
+            <div className="w-full flex justify-center text-6xl mb-4">
               <Lock size={60} />
             </div>
             <h2 className="text-2xl font-bold text-foreground mb-2">Connect Your Wallet</h2>

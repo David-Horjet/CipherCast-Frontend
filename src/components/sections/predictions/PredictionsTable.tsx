@@ -64,10 +64,12 @@ export function PredictionsTable({ predictions }: PredictionsTableProps) {
   }
 
   const canClaimReward = (prediction: Prediction) => {
-    return prediction.pools.status === "resolved" && prediction.status === "pending" && prediction.reward
+    return true;
+    // return prediction.pools.status === "won" && prediction.status === "completed" && prediction.reward
   }
 
   const handleClaimReward = async (prediction: Prediction) => {
+    console.log(authenticated, embeddedWallet)
     if (!authenticated || !embeddedWallet) {
       toast.error("Please connect your wallet first")
       return
@@ -80,6 +82,7 @@ export function PredictionsTable({ predictions }: PredictionsTableProps) {
       const connection = new Connection(process.env.NEXT_PUBLIC_SOLANA_RPC_URL!, "confirmed")
       const walletPublicKey = new PublicKey(embeddedWallet.address)
 
+      console.log("[v0] Claiming reward for prediction:", prediction)
       // Call blockchain claim function
       const signature = await claimRewards(
         connection,
@@ -89,13 +92,7 @@ export function PredictionsTable({ predictions }: PredictionsTableProps) {
           return signedTx
         },
         {
-          poolId: Number.parseInt(prediction.pool_id),
-          mxeAccountAddress: process.env.NEXT_PUBLIC_MXE_ACCOUNT || "",
-          mempoolAccountAddress: process.env.NEXT_PUBLIC_MEMPOOL_ACCOUNT || "",
-          executingPoolAddress: process.env.NEXT_PUBLIC_EXECUTING_POOL_ACCOUNT || "",
-          computationAccountAddress: process.env.NEXT_PUBLIC_COMPUTATION_ACCOUNT || "",
-          compDefAccountAddress: process.env.NEXT_PUBLIC_COMP_DEF_ACCOUNT || "",
-          clusterAccountAddress: process.env.NEXT_PUBLIC_CLUSTER_ACCOUNT || "",
+          poolId: prediction.pools.poolid,
         },
       )
 

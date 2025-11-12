@@ -1,3 +1,4 @@
+import { PoolResponse } from "@/lib/api/pools"
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 
 export interface Prediction {
@@ -8,13 +9,7 @@ export interface Prediction {
   reward: number | null
   status: "pending" | "completed"
   created_at: string
-  pools: {
-    id: string
-    asset_symbol: string
-    target_price: number
-    final_price: number | null
-    status: string
-  }
+  pools: PoolResponse
 }
 
 interface PredictionsState {
