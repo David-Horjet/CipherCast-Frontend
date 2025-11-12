@@ -14,7 +14,6 @@ export interface CreatePredictionResponse {
     id: string
     pool_id: string
     user_wallet: string
-    predicted_price: number
     amount: number
     reward: number | null
     status: string
