@@ -57,8 +57,8 @@ export function PredictionsStats({ predictions, stats }: PredictionsStatsProps) 
           transition={{ delay: 0.1 + index * 0.05 }}
           className="relative group"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-smooth" />
-          <div className="relative p-6 rounded-2xl bg-card border border-border hover:border-primary/50 transition-smooth">
+          {/* <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-smooth" /> */}
+          <div className="relative p-6 rounded-2xl bg-transparent border border-border hover:border-primary/50 transition-smooth">
             <div className={`mb-5 ${stat.color}`}>{stat.icon}</div>
             <div className={`text-2xl font-bold mb-1 ${stat.color}`}>{stat.value}</div>
             <div className="text-sm text-muted-foreground">{stat.label}</div>

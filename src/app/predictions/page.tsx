@@ -39,7 +39,7 @@ export default function PredictionsPage() {
   if (!isConnected) {
     return (
       <PageLayout>
-        <div className="min-h-screen flex items-center justify-center py-12">
+        <div className="min-h-screen flex items-center justify-center py-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -59,7 +59,7 @@ export default function PredictionsPage() {
   if (loading) {
     return (
       <PageLayout>
-        <div className="min-h-screen flex items-center justify-center py-12">
+        <div className="min-h-screen flex items-center justify-center py-20">
           <LoadingSpinner />
         </div>
       </PageLayout>
@@ -68,7 +68,7 @@ export default function PredictionsPage() {
 
   return (
     <PageLayout>
-      <div className="min-h-screen py-12">
+      <div className="min-h-screen py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <PredictionsHeader />
           <PredictionsStats predictions={predictions} stats={stats} />
