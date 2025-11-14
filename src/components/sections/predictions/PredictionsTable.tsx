@@ -18,6 +18,7 @@ interface PredictionsTableProps {
 }
 
 export function PredictionsTable({ predictions }: PredictionsTableProps) {
+  console.log("PredictionsTable predictions:", predictions)
   const dispatch = useAppDispatch()
   const toast = useToast()
   const { authenticated } = usePrivy()
