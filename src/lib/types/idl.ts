@@ -77,7 +77,36 @@ export type SwivPrivacy = {
           }
         },
         {
+          "name": "poolVault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  111,
+                  111,
+                  108,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool.pool_id",
+                "account": "pool"
+              }
+            ]
+          }
+        },
+        {
           "name": "bet",
+          "writable": true,
           "pda": {
             "seeds": [
               {
@@ -98,6 +127,10 @@ export type SwivPrivacy = {
               }
             ]
           }
+        },
+        {
+          "name": "userTokenAccount",
+          "writable": true
         },
         {
           "name": "user",
@@ -166,6 +199,10 @@ export type SwivPrivacy = {
           "address": "AxygBawEvVwZPetj3yPJb9sGdZvaJYsVguET1zFUQkV"
         },
         {
+          "name": "tokenProgram",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
           "name": "systemProgram",
           "address": "11111111111111111111111111111111"
         },
@@ -182,19 +219,19 @@ export type SwivPrivacy = {
       ]
     },
     {
-      "name": "calculateRewardCallback",
+      "name": "calculateRewardV2Callback",
       "docs": [
         "Callback for reward calculation - distributes the reward"
       ],
       "discriminator": [
-        209,
-        119,
-        113,
-        239,
-        37,
-        131,
-        24,
-        155
+        184,
+        54,
+        128,
+        176,
+        143,
+        76,
+        25,
+        95
       ],
       "accounts": [
         {
@@ -330,7 +367,7 @@ export type SwivPrivacy = {
                   "kind": "type",
                   "type": {
                     "defined": {
-                      "name": "calculateRewardOutput"
+                      "name": "calculateRewardV2Output"
                     }
                   }
                 }
@@ -1436,7 +1473,7 @@ export type SwivPrivacy = {
       }
     },
     {
-      "name": "calculateRewardOutput",
+      "name": "calculateRewardV2Output",
       "docs": [
         "The output of the callback instruction. Provided as a struct with ordered fields",
         "as anchor does not support tuples and tuple structs yet."
@@ -1448,15 +1485,25 @@ export type SwivPrivacy = {
             "name": "field0",
             "type": {
               "defined": {
-                "name": "sharedEncryptedStruct",
-                "generics": [
-                  {
-                    "kind": "const",
-                    "value": "1"
-                  }
-                ]
+                "name": "calculateRewardV2OutputStruct0"
               }
             }
+          }
+        ]
+      }
+    },
+    {
+      "name": "calculateRewardV2OutputStruct0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "field0",
+            "type": "u64"
+          },
+          {
+            "name": "field1",
+            "type": "u64"
           }
         ]
       }

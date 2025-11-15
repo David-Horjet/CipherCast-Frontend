@@ -7,7 +7,7 @@ export interface Prediction {
   user_wallet: string
   amount: number
   reward: number | null
-  status: "pending" | "completed"
+  status: "pending" | "resolved" | "completed"
   created_at: string
   pools: PoolResponse
 }

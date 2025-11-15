@@ -183,9 +183,19 @@ export async function claimRewards(
         console.log("[v0] Starting claim rewards...")
         console.log("[v0] Pool ID:", params.poolId)
 
+        // Get user's token account (USDC)
+        const usdcMint = new PublicKey(process.env.NEXT_PUBLIC_USDC_TOKEN_MINT!)
+        const userTokenAccount = await getAssociatedTokenAddress(usdcMint, walletPublicKey)
+        console.log("[v0] User token account:", userTokenAccount.toBase58())
+
         // Derive PDAs
         const [poolPda] = PublicKey.findProgramAddressSync(
             [Buffer.from("pool"), new BN(params.poolId).toArrayLike(Buffer, "le", 8)],
+            PROGRAM_ID,
+        )
+
+        const [poolVaultPda] = PublicKey.findProgramAddressSync(
+            [Buffer.from("pool_vault"), new BN(params.poolId).toArrayLike(Buffer, "le", 8)],
             PROGRAM_ID,
         )
 
@@ -193,6 +203,12 @@ export async function claimRewards(
             [Buffer.from("bet"), poolPda.toBuffer(), walletPublicKey.toBuffer()],
             PROGRAM_ID,
         )
+
+        console.log("[v0] Derived PDAs:", {
+            poolPda: poolPda.toBase58(),
+            poolVaultPda: poolVaultPda.toBase58(),
+            betPda: betPda.toBase58(),
+        })
 
         // Create program instance
         const program = new Program<SwivPrivacy>(
@@ -223,14 +239,18 @@ export async function claimRewards(
             .calculateReward(claimRewardComputationOffset)
             .accounts({
                 pool: poolPda,
+                poolVault: poolVaultPda,
                 bet: betPda,
+                userTokenAccount,
                 user: walletPublicKey,
+                payer: walletPublicKey,
                 mxeAccount: mxeAccount,
                 mempoolAccount: mempoolAccount,
                 executingPool: executingPool,
                 computationAccount: computationAccount,
                 compDefAccount: compDefAccount,
                 clusterAccount: clusterAccount,
+                tokenProgram: TOKEN_PROGRAM_ID,
                 systemProgram: SystemProgram.programId,
                 arciumProgram: getArciumProgAddress(),
             })

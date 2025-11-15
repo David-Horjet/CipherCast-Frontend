@@ -65,8 +65,8 @@ export function PredictionsTable({ predictions }: PredictionsTableProps) {
   }
 
   const canClaimReward = (prediction: Prediction) => {
-    // return true;
-    return prediction.pools.status === "active" && prediction.status === "pending" 
+    return true;
+    // return prediction.pools.status === "closed" && prediction.status === "resolved" 
   }
 
   const handleClaimReward = async (prediction: Prediction) => {
