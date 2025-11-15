@@ -9,14 +9,14 @@ export default function BalanceCards() {
   const predictions = useAppSelector((state) => state.predictions.predictions)
 
   // Calculate balances
-  const activePredictions = predictions.filter((p) => p.status === "active")
-  const stakedBalance = activePredictions.reduce((sum, p) => sum + p.stake, 0)
+  const activePredictions = predictions.filter((p) => p.status === "pending")
+  const stakedBalance = activePredictions.reduce((sum, p) => sum + p.amount, 0)
 
   const completedPredictions = predictions.filter((p) => p.status === "completed")
   const claimableBalance = completedPredictions.reduce((sum, p) => sum + (p.reward || 0), 0)
 
   const totalPnL = completedPredictions.reduce((sum, p) => {
-    const pnl = (p.reward || 0) - p.stake
+    const pnl = (p.reward || 0) - p.amount
     return sum + pnl
   }, 0)
 

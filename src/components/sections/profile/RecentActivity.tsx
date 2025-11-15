@@ -8,7 +8,7 @@ export default function RecentActivity() {
 
   // Get recent predictions (last 10)
   const recentPredictions = [...predictions]
-    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
     .slice(0, 10)
 
   const getActivityIcon = (status: string) => {
@@ -49,10 +49,10 @@ export default function RecentActivity() {
               <div className="text-2xl">{getActivityIcon(prediction.status)}</div>
               <div className="flex-1">
                 <p className="font-semibold text-gray-900 dark:text-white">
-                  {prediction.status === "completed" ? "Completed" : "Placed"} prediction on {prediction.asset}
+                  {prediction.status === "completed" ? "Completed" : "Placed"} prediction on {prediction.pools.asset_symbol}
                 </p>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {new Date(prediction.timestamp).toLocaleDateString("en-US", {
+                  {new Date(prediction.created_at).toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
                     year: "numeric",
@@ -64,8 +64,8 @@ export default function RecentActivity() {
               <div className="text-right">
                 <p className={`font-semibold ${getActivityColor(prediction.status)}`}>
                   {prediction.status === "completed" && prediction.reward
-                    ? `+$${(prediction.reward - prediction.stake).toLocaleString()}`
-                    : `$${prediction.stake.toLocaleString()}`}
+                    ? `+$${(prediction.reward - prediction.amount).toLocaleString()}`
+                    : `$${prediction.amount.toLocaleString()}`}
                 </p>
               </div>
             </div>

@@ -10,14 +10,14 @@ export default function PnLChart() {
   // Generate cumulative PnL data
   const completedPredictions = predictions
     .filter((p) => p.status === "completed")
-    .sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime())
+    .sort((a, b) => new Date(a.pools.created_at).getTime() - new Date(b.pools.created_at).getTime())
 
   let cumulativePnL = 0
   const chartData = completedPredictions.map((pred) => {
-    const pnl = (pred.reward || 0) - pred.stake
+    const pnl = (pred.reward || 0) - pred.amount
     cumulativePnL += pnl
     return {
-      date: new Date(pred.timestamp).toLocaleDateString("en-US", {
+      date: new Date(pred.pools.created_at).toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
       }),
