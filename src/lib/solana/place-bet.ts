@@ -82,7 +82,7 @@ export async function placeEncryptedBet(
             PROGRAM_ID,
         )
 
-        const program = new Program<SwivPrivacy>(IDL as SwivPrivacy, provider)
+        const program = new Program(IDL as any, provider)
 
         // Get Arcium accounts
         const mxeAccount = getMXEAccAddress(PROGRAM_ID)
@@ -211,8 +211,8 @@ export async function claimRewards(
         })
 
         // Create program instance
-        const program = new Program<SwivPrivacy>(
-            IDL as SwivPrivacy,
+        const program = new Program (
+            IDL as any,
             {
                 connection,
                 publicKey: walletPublicKey,
