@@ -10,6 +10,7 @@ import type { SwivPrivacy } from "@/lib/types/idl"
 import IDL from "@/lib/idl/idl.json"
 import { encryptPrediction } from "./arcium-encryption"
 import {
+    awaitComputationFinalization,
     deserializeLE,
     getArciumProgAddress,
     getClusterAccAddress,
@@ -210,13 +211,23 @@ export async function claimRewards(
             betPda: betPda.toBase58(),
         })
 
-        // Create program instance
+        // Create provider and program instance
+        const wallet = {
+            publicKey: walletPublicKey,
+            signTransaction: signTransaction,
+            signAllTransactions: async (txs: Transaction[]) => {
+                return Promise.all(txs.map(tx => signTransaction(tx)))
+            },
+        }
+        const provider = new AnchorProvider(
+            connection,
+            wallet as any,
+            AnchorProvider.defaultOptions(),
+        )
+
         const program = new Program<SwivPrivacy>(
             IDL as SwivPrivacy,
-            {
-                connection,
-                publicKey: walletPublicKey,
-            } as any,
+            provider,
         )
 
         // Get Arcium accounts
@@ -271,6 +282,17 @@ export async function claimRewards(
         await connection.confirmTransaction(signature, "confirmed")
 
         console.log("[v0] Claim transaction successful:", signature)
+
+        const finalizeSig = await awaitComputationFinalization(
+            provider,
+            claimRewardComputationOffset,
+            program.programId,
+            "confirmed"
+        );
+        console.log(
+            `finalize sig is `,
+            finalizeSig
+        );
         return signature
     } catch (error) {
         console.error("[v0] Claim rewards error:", error)

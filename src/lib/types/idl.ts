@@ -14,19 +14,19 @@ export type SwivPrivacy = {
   },
   "instructions": [
     {
-      "name": "calculateReward",
+      "name": "calculateRewardV2",
       "docs": [
         "Calculate reward using encrypted computation"
       ],
       "discriminator": [
-        58,
-        103,
-        84,
-        31,
-        205,
-        107,
-        149,
-        125
+        136,
+        76,
+        229,
+        133,
+        178,
+        169,
+        151,
+        89
       ],
       "accounts": [
         {
