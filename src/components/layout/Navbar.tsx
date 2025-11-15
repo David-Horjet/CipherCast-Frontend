@@ -107,7 +107,7 @@ export function Navbar() {
               }),
             )
 
-            toast.success("Welcome to CypherCast!")
+            toast.success("Welcome to Swiv!")
           }
         } catch (error) {
           console.error("[v0] Authentication error:", error)
