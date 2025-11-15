@@ -55,36 +55,36 @@ export const mockPools: Pool[] = [
 ]
 
 export const mockPredictions: Prediction[] = [
-  {
-    id: "1",
-    poolId: "5",
-    asset: "Polkadot",
-    predictedPrice: 8.45,
-    actualPrice: 8.32,
-    stake: 500,
-    reward: 1250,
-    accuracy: 98.5,
-    timestamp: "2024-12-20T10:30:00",
-    status: "completed",
-  },
-  {
-    id: "2",
-    poolId: "1",
-    asset: "Bitcoin",
-    predictedPrice: 105000,
-    stake: 1000,
-    timestamp: "2025-01-08T14:20:00",
-    status: "active",
-  },
-  {
-    id: "3",
-    poolId: "2",
-    asset: "Ethereum",
-    predictedPrice: 3850,
-    stake: 750,
-    timestamp: "2025-01-09T09:15:00",
-    status: "active",
-  },
+  // {
+  //   id: "1",
+  //   poolId: "5",
+  //   asset: "Polkadot",
+  //   predictedPrice: 8.45,
+  //   actualPrice: 8.32,
+  //   stake: 500,
+  //   reward: 1250,
+  //   accuracy: 98.5,
+  //   timestamp: "2024-12-20T10:30:00",
+  //   status: "completed",
+  // },
+  // {
+  //   id: "2",
+  //   poolId: "1",
+  //   asset: "Bitcoin",
+  //   predictedPrice: 105000,
+  //   stake: 1000,
+  //   timestamp: "2025-01-08T14:20:00",
+  //   status: "active",
+  // },
+  // {
+  //   id: "3",
+  //   poolId: "2",
+  //   asset: "Ethereum",
+  //   predictedPrice: 3850,
+  //   stake: 750,
+  //   timestamp: "2025-01-09T09:15:00",
+  //   status: "active",
+  // },
 ]
 
 export interface LeaderboardEntry {
